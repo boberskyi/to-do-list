@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
-import {TodoList} from "./components/TodoList";
+import {Todolist} from "./components/Todolist";
 
 const App = () => {
     return (
         <div className="App">
-            <TodoList/>
-            <TodoList/>
-            <TodoList/>
-            <TodoList/>
+            <Todolist title="Sunday"/>
+            <Todolist title="Monday"/>
         </div>
     );
 }
