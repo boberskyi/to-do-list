@@ -9,20 +9,21 @@ type TaskPropsType = {
     title: string,
     isDone: boolean
 }
-export const Todolist = (props: TodolistPropsType) => {
+export const Todolist:React.FC<TodolistPropsType> = ({title,tasks}) => {
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>{title}</h3>
             <div>
                 <input/>
                 <button>+</button>
             </div>
             <ul>
-                {props.tasks.map(t => {
+                {tasks.map(t => {
                     return (
                     <li key={t.id}>
                         <input type='checkbox' checked={t.isDone}/>
                         <span>{t.title}</span>
+                        <button>x</button>
                     </li>
                 )
                 })}
