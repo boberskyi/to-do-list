@@ -27,7 +27,10 @@ export const Todolist: React.FC<TodolistPropsType> = (
                 <button>+</button>
             </div>
             <ul>
-                {tasks.map(t => {
+                {
+                    tasks.length === 0
+                        ? <div>No tasks</div>
+                        : tasks.map(t => {
                     return (
                         <li key={t.id}>
                             <input type='checkbox' checked={t.isDone}/>
