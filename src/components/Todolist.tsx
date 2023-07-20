@@ -2,6 +2,7 @@ import React, {KeyboardEvent, useState} from "react";
 import {FilterValueType} from "../App";
 import {Task} from "./Task";
 import {Button} from "./Button";
+import styled from "styled-components";
 
 export type TodolistPropsType = {
     title: string,
@@ -38,16 +39,16 @@ export const Todolist: React.FC<TodolistPropsType> = (
     const onAddTitleClickHandler = () => addTaskAndResetTitle();
 
     return (
-        <div>
+        <StyledTodolist>
             <h3>{title}</h3>
-            <div>
+            <StyledAddTask>
                 <input value={newTitle}
                        onChange={onTitleChangeHandler}
                        onKeyDown={onTitleKeyDownHandler}
                 />
                 <Button clickFunc={onAddTitleClickHandler}>+</Button>
-            </div>
-            <ul>
+            </StyledAddTask>
+            <StyledTasksWrap>
                 {
                     tasks.length === 0
                         ? <div>No tasks</div>
@@ -59,12 +60,40 @@ export const Todolist: React.FC<TodolistPropsType> = (
                                 removeTask={removeTask}
                             />
                         })}
-            </ul>
-            <div>
+            </StyledTasksWrap>
+            <StyledFilterWrap>
                 <Button clickFunc={() => filterTasks('All')}>All</Button>
                 <Button clickFunc={() => filterTasks('Active')}>Active</Button>
                 <Button clickFunc={() => filterTasks('Completed')}>Complete</Button>
-            </div>
-        </div>
+            </StyledFilterWrap>
+        </StyledTodolist>
     )
 }
+
+const StyledTodolist = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 300px;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+`
+const StyledFilterWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+const StyledAddTask = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+const StyledTasksWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid black;
+  padding: 10px;
+`
