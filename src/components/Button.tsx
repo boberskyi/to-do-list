@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from "styled-components";
 
 type ButtonType = {
     children: string,
@@ -10,6 +11,10 @@ export const Button:React.FC<ButtonType> = (
         clickFunc
     }) => {
     return (
-        <button onClick={clickFunc}>{children}</button>
+        <StyledButton onClick={clickFunc}>{children}</StyledButton>
     );
 };
+
+export const StyledButton = styled.button`
+  padding:  5px 10px;
+`
