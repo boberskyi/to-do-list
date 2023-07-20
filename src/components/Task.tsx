@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from "./Button";
+import styled from "styled-components";
 
 type TaskPropsType = {
     id:string,
@@ -15,10 +16,16 @@ export const Task:React.FC<TaskPropsType> = (
         removeTask
     }) => {
     return (
-        <li key={id}>
+        <StyledTask key={id}>
             <input type='checkbox' checked={isDone}/>
             <span>{title}</span>
             <Button clickFunc={() => removeTask(id)}>x</Button>
-        </li>
+        </StyledTask>
     );
 };
+
+const StyledTask = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
