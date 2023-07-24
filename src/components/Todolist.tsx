@@ -56,6 +56,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
                         ? <div>No tasks</div>
                         : tasks.map(t => {
                             return <Task
+                                key={t.id}
                                 id={t.id}
                                 title={t.title}
                                 isDone={t.isDone}
