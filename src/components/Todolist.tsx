@@ -30,6 +30,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
     }) => {
 
     let [newTitle, setNewTitle] = useState<string>('');
+    let [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
     const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.currentTarget.value);
     }
@@ -40,7 +41,12 @@ export const Todolist: React.FC<TodolistPropsType> = (
     const onTitleKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
         e.code === 'Enter' && addTaskAndResetTitle();
     }
-    const onAddTitleClickHandler = () => addTaskAndResetTitle();
+    const onAddTitleClickHandler = () =>  addTaskAndResetTitle();
+
+    const onFilterClickHandler = (value:FilterValueType) => {
+        filterTasks(value);
+        setActiveBtn(value);
+    }
 
     return (
         <StyledTodolist>
@@ -51,7 +57,9 @@ export const Todolist: React.FC<TodolistPropsType> = (
                        onKeyDown={onTitleKeyDownHandler}
                        placeholder={inputError === '' ? 'Write task' : inputError}
                 />
-                <Button disabled={newTitle === ''} clickFunc={onAddTitleClickHandler}>+</Button>
+                <Button disabled={newTitle === ''}
+                        clickFunc={onAddTitleClickHandler}
+                >+</Button>
             </StyledAddTask>
             <StyledTasksWrap>
                 {
@@ -69,9 +77,9 @@ export const Todolist: React.FC<TodolistPropsType> = (
                         })}
             </StyledTasksWrap>
             <StyledFilterWrap>
-                <Button clickFunc={() => filterTasks('All')}>All</Button>
-                <Button clickFunc={() => filterTasks('Active')}>Active</Button>
-                <Button clickFunc={() => filterTasks('Completed')}>Complete</Button>
+                <Button actived={activeBtn === 'All'} clickFunc={() => onFilterClickHandler('All')}>All</Button>
+                <Button actived={activeBtn === 'Active'} clickFunc={() => onFilterClickHandler('Active')}>Active</Button>
+                <Button actived={activeBtn === 'Completed'} clickFunc={() => onFilterClickHandler('Completed')}>Complete</Button>
             </StyledFilterWrap>
         </StyledTodolist>
     )
