@@ -31,6 +31,10 @@ const App = () => {
         filteredTasks = tasks.filter(task => !task.isDone);
     }
 
+    const chnageCheckboxStatus = (taskId:string) => {
+        setTasks(tasks.map(t => t.id === taskId ? {...t, isDone: !t.isDone} : t))
+    }
+
 
     return (
         <div className="App">
@@ -39,6 +43,7 @@ const App = () => {
                       removeTask={removeTask}
                       filterTasks={filterTasks}
                       addTask={addTask}
+                      chnageCheckboxStatus={chnageCheckboxStatus}
             />
         </div>
     );
