@@ -3,15 +3,17 @@ import styled from "styled-components";
 
 type ButtonType = {
     children: string,
-    clickFunc: () => void
+    clickFunc: () => void,
+    disabled?: boolean
 }
 export const Button:React.FC<ButtonType> = (
     {
         children,
-        clickFunc
+        clickFunc,
+        disabled
     }) => {
     return (
-        <StyledButton onClick={clickFunc}>{children}</StyledButton>
+        <StyledButton onClick={clickFunc} disabled={disabled}>{children}</StyledButton>
     );
 };
 

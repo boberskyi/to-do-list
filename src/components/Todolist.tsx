@@ -10,7 +10,8 @@ export type TodolistPropsType = {
     removeTask: (taskId: string) => void,
     filterTasks: (filterValue: FilterValueType) => void,
     addTask: (newTitle: string) => void,
-    chnageCheckboxStatus: (taskId:string) => void
+    chnageCheckboxStatus: (taskId:string) => void,
+    inputError: string;
 }
 export type TaskType = {
     id: string,
@@ -24,7 +25,8 @@ export const Todolist: React.FC<TodolistPropsType> = (
         removeTask,
         filterTasks,
         addTask,
-        chnageCheckboxStatus
+        chnageCheckboxStatus,
+        inputError
     }) => {
 
     let [newTitle, setNewTitle] = useState<string>('');
@@ -43,12 +45,13 @@ export const Todolist: React.FC<TodolistPropsType> = (
     return (
         <StyledTodolist>
             <h3>{title}</h3>
-            <StyledAddTask>
+            <StyledAddTask error={inputError}>
                 <input value={newTitle}
                        onChange={onTitleChangeHandler}
                        onKeyDown={onTitleKeyDownHandler}
+                       placeholder={inputError === '' ? 'Write task' : inputError}
                 />
-                <Button clickFunc={onAddTitleClickHandler}>+</Button>
+                <Button disabled={newTitle === ''} clickFunc={onAddTitleClickHandler}>+</Button>
             </StyledAddTask>
             <StyledTasksWrap>
                 {
@@ -89,10 +92,19 @@ const StyledFilterWrap = styled.div`
   align-items: center;
   gap: 10px;
 `
-const StyledAddTask = styled.div`
+interface StyledAddTaskType {
+    error: string
+}
+const StyledAddTask = styled.div<StyledAddTaskType>`
   display: flex;
   align-items: center;
   gap: 10px;
+  
+  input {
+    border-width: 2px;
+    border-style: solid;
+    border-color: ${props => props.error === '' ? 'black' : 'red'};
+  }
 `
 const StyledTasksWrap = styled.div`
   display: flex;

@@ -14,9 +14,16 @@ const App = () => {
 
 
     const [filterValue, setFilterValue] = useState<FilterValueType>('All');
+    const [inputError, setInputError] = useState('');
+
     const addTask = (newTitle: string) => {
         const newTask = {id: v1(), title: newTitle, isDone: false};
-        newTitle.trim() !== '' && setTasks([...tasks, newTask]);
+        if(newTitle.trim() !== '') {
+            setInputError('');
+            setTasks([...tasks, newTask]);
+        } else {
+            setInputError('Error');
+        }
     }
     const removeTask = (taskId: string) => {
         setTasks(tasks.filter(task => task.id !== taskId));
@@ -44,6 +51,7 @@ const App = () => {
                       filterTasks={filterTasks}
                       addTask={addTask}
                       chnageCheckboxStatus={chnageCheckboxStatus}
+                      inputError={inputError}
             />
         </div>
     );
