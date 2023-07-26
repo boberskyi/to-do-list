@@ -8,10 +8,11 @@ export type TodolistPropsType = {
     title: string,
     tasks: TaskType[],
     removeTask: (taskId: string) => void,
-    filterTasks: (filterValue: FilterValueType) => void,
+    filterTasks: (ftdlId:string, ilterValue: FilterValueType) => void,
     addTask: (newTitle: string) => void,
     chnageCheckboxStatus: (taskId:string) => void,
-    inputError: string;
+    inputError: string,
+    tdlId:string
 }
 export type TaskType = {
     id: string,
@@ -26,7 +27,8 @@ export const Todolist: React.FC<TodolistPropsType> = (
         filterTasks,
         addTask,
         chnageCheckboxStatus,
-        inputError
+        inputError,
+        ...props
     }) => {
 
     let [newTitle, setNewTitle] = useState<string>('');
@@ -44,7 +46,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
     const onAddTitleClickHandler = () =>  addTaskAndResetTitle();
 
     const onFilterClickHandler = (value:FilterValueType) => {
-        filterTasks(value);
+        filterTasks(props.tdlId, value);
         setActiveBtn(value);
     }
 
