@@ -39,7 +39,7 @@ const App = () => {
         setTodolists(todolists.map(tdl => tdl.id === tdlId ? {...tdl, filter: filterValue} : tdl))
     }
     const removeTask = (tdlId:string, taskId: string) => {
-        // setTasks(tasks.filter(task => task.id !== taskId));
+        setTasks({...tasks, [tdlId]: tasks[tdlId].filter(task => task.id !== taskId)})
     }
     const addTask = (newTitle: string) => {
         // const newTask = {id: v1(), title: newTitle, isDone: false};
