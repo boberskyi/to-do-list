@@ -15,8 +15,8 @@ const App = () => {
     let todolistID2 = v1()
 
     let [todolists, setTodolists] = useState<Array<TodolistsType>>([
-        {id: todolistID1, title: 'What to learn', filter: 'all'},
-        {id: todolistID2, title: 'What to buy', filter: 'all'},
+        {id: todolistID1, title: 'What to learn', filter: 'All'},
+        {id: todolistID2, title: 'What to buy', filter: 'All'},
     ])
 
     let [tasks, setTasks] = useState({
@@ -35,37 +35,38 @@ const App = () => {
 
 
     const [inputError, setInputError] = useState('');
-
-    const addTask = (newTitle: string) => {
-        const newTask = {id: v1(), title: newTitle, isDone: false};
-        if(newTitle.trim() !== '') {
-            setInputError('');
-            setTasks([...tasks, newTask]);
-        } else {
-            setInputError('Error');
-        }
-    }
-    const removeTask = (taskId: string) => {
-        setTasks(tasks.filter(task => task.id !== taskId));
-    }
     const filterTasks = (tdlId:string, filterValue: FilterValueType) => {
         setTodolists(todolists.map(tdl => tdl.id === tdlId ? {...tdl, filter: filterValue} : tdl))
     }
+    const removeTask = (tdlId:string, taskId: string) => {
+        // setTasks(tasks.filter(task => task.id !== taskId));
+    }
+    const addTask = (newTitle: string) => {
+        // const newTask = {id: v1(), title: newTitle, isDone: false};
+        // if(newTitle.trim() !== '') {
+        //     setInputError('');
+        //     setTasks([...tasks, newTask]);
+        // } else {
+        //     setInputError('Error');
+        // }
+    }
+
+
 
     const chnageCheckboxStatus = (taskId:string) => {
-        setTasks(tasks.map(t => t.id === taskId ? {...t, isDone: !t.isDone} : t))
+        // setTasks(tasks.map(t => t.id === taskId ? {...t, isDone: !t.isDone} : t))
     }
 
 
     return (
         <div className="App">
             {todolists.map(tdl => {
-                let filteredTasks = tasks;
+                let filteredTasks = tasks[tdl.id];
                 if (tdl.filter === 'Completed') {
-                    filteredTasks = tasks.filter(task => task.isDone);
+                    filteredTasks = tasks[tdl.id].filter(task => task.isDone);
                 }
                 if (tdl.filter === 'Active') {
-                    filteredTasks = tasks.filter(task => !task.isDone);
+                    filteredTasks = tasks[tdl.id].filter(task => !task.isDone);
                 }
 
                 return <Todolist title={tdl.title}
