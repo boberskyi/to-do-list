@@ -12,6 +12,14 @@ const App = () => {
         {id: v1(), title: "ReactJS", isDone: false}
     ]);
 
+    let [todolists, setTodolists] = useState<Array<TodolistsType>>(
+        [
+            {id: v1(), title: 'What to learn', filter: 'all'},
+            {id: v1(), title: 'What to buy', filter: 'all'},
+        ]
+    )
+
+
 
     const [filterValue, setFilterValue] = useState<FilterValueType>('All');
     const [inputError, setInputError] = useState('');
