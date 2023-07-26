@@ -10,7 +10,7 @@ export type TodolistPropsType = {
     removeTask: (tdlId:string, taskId: string) => void,
     filterTasks: (ftdlId:string, ilterValue: FilterValueType) => void,
     addTask: (ftdlId:string, newTitle: string) => void,
-    chnageCheckboxStatus: (taskId:string) => void,
+    chnageCheckboxStatus: (tdlId:string, taskId:string) => void,
     inputError: string,
     tdlId:string
 }
@@ -74,7 +74,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
                                 title={t.title}
                                 isDone={t.isDone}
                                 removeTask={() => removeTask(props.tdlId, t.id)}
-                                chnageCheckboxStatus={chnageCheckboxStatus}
+                                chnageCheckboxStatus={() => chnageCheckboxStatus(props.tdlId, t.id)}
                             />
                         })}
             </StyledTasksWrap>

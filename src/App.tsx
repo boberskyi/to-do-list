@@ -50,11 +50,8 @@ const App = () => {
             setInputError('Error');
         }
     }
-
-
-
-    const chnageCheckboxStatus = (taskId:string) => {
-        // setTasks(tasks.map(t => t.id === taskId ? {...t, isDone: !t.isDone} : t))
+    const chnageCheckboxStatus = (tdlId:string, taskId:string) => {
+        setTasks({...tasks, [tdlId]: tasks[tdlId].map(task => task.id === taskId ? {...task, isDone: !task.isDone} : task)})
     }
 
 
