@@ -11,22 +11,29 @@ type TodolistsType = {
     filter: FilterValueType
 }
 const App = () => {
-    let [tasks, setTasks] = useState<TaskType[]>([
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false}
-    ]);
+    let todolistID1 = v1()
+    let todolistID2 = v1()
 
-    let [todolists, setTodolists] = useState<Array<TodolistsType>>(
-        [
-            {id: v1(), title: 'What to learn', filter: 'All'},
-            {id: v1(), title: 'What to buy', filter: 'Completed'},
+    let [todolists, setTodolists] = useState<Array<TodolistsType>>([
+        {id: todolistID1, title: 'What to learn', filter: 'all'},
+        {id: todolistID2, title: 'What to buy', filter: 'all'},
+    ])
+
+    let [tasks, setTasks] = useState({
+        [todolistID1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+
+        ],
+        [todolistID2]: [
+            {id: v1(), title: 'Rest API', isDone: true},
+            {id: v1(), title: 'GraphQL', isDone: false},
         ]
-    )
+    })
 
 
 
-    // const [filterValue, setFilterValue] = useState<FilterValueType>('All');
     const [inputError, setInputError] = useState('');
 
     const addTask = (newTitle: string) => {
