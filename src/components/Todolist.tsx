@@ -9,10 +9,11 @@ export type TodolistPropsType = {
     tasks: TaskType[],
     removeTask: (tdlId:string, taskId: string) => void,
     filterTasks: (ftdlId:string, ilterValue: FilterValueType) => void,
-    addTask: (ftdlId:string, newTitle: string) => void,
+    addTask: (tdlId:string, newTitle: string) => void,
     chnageCheckboxStatus: (tdlId:string, taskId:string) => void,
     inputError: string,
-    tdlId:string
+    tdlId:string,
+    removeTodolist: (tdlId:string) => void
 }
 export type TaskType = {
     id: string,
@@ -52,7 +53,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
 
     return (
         <StyledTodolist>
-            <h3>{title}</h3>
+            <h3>{title} <button onClick={() => props.removeTodolist(props.tdlId)}>x</button></h3>
             <StyledAddTask error={inputError}>
                 <input value={newTitle}
                        onChange={onTitleChangeHandler}

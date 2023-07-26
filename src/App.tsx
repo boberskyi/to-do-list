@@ -53,6 +53,10 @@ const App = () => {
     const chnageCheckboxStatus = (tdlId:string, taskId:string) => {
         setTasks({...tasks, [tdlId]: tasks[tdlId].map(task => task.id === taskId ? {...task, isDone: !task.isDone} : task)})
     }
+    const removeTodolist = (tdlId:string) => {
+        setTodolists(todolists.filter(todolist => todolist.id !== tdlId));
+        delete tasks[tdlId];
+    }
 
 
     return (
@@ -75,6 +79,7 @@ const App = () => {
                                  addTask={addTask}
                                  chnageCheckboxStatus={chnageCheckboxStatus}
                                  inputError={inputError}
+                                 removeTodolist={removeTodolist}
                 />
             })}
         </div>
