@@ -9,7 +9,7 @@ export type TodolistPropsType = {
     tasks: TaskType[],
     removeTask: (tdlId:string, taskId: string) => void,
     filterTasks: (ftdlId:string, ilterValue: FilterValueType) => void,
-    addTask: (newTitle: string) => void,
+    addTask: (ftdlId:string, newTitle: string) => void,
     chnageCheckboxStatus: (taskId:string) => void,
     inputError: string,
     tdlId:string
@@ -37,7 +37,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
         setNewTitle(e.currentTarget.value);
     }
     const addTaskAndResetTitle = () => {
-        addTask(newTitle);
+        addTask(props.tdlId, newTitle);
         setNewTitle('');
     }
     const onTitleKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {

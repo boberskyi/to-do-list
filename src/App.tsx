@@ -41,14 +41,14 @@ const App = () => {
     const removeTask = (tdlId:string, taskId: string) => {
         setTasks({...tasks, [tdlId]: tasks[tdlId].filter(task => task.id !== taskId)})
     }
-    const addTask = (newTitle: string) => {
-        // const newTask = {id: v1(), title: newTitle, isDone: false};
-        // if(newTitle.trim() !== '') {
-        //     setInputError('');
-        //     setTasks([...tasks, newTask]);
-        // } else {
-        //     setInputError('Error');
-        // }
+    const addTask = (tdlId:string, newTitle: string) => {
+        const newTask = {id: v1(), title: newTitle, isDone: false};
+        if(newTitle.trim() !== '') {
+            setInputError('');
+            setTasks({...tasks, [tdlId]: [...tasks[tdlId], newTask]});
+        } else {
+            setInputError('Error');
+        }
     }
 
 
