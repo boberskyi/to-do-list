@@ -11,9 +11,9 @@ export const AddItemForm:React.FC<AddItemFormType> = ({callback}) => {
     let [newTitle, setNewTitle] = useState<string>('');
 
     const addTaskAndResetTitle = () => {
-        callback(newTitle)
         setNewTitle('');
         if(newTitle.trim() !== '') {
+            callback(newTitle)
             setInputError('');
         } else {
             setInputError('Error');

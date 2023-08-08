@@ -44,9 +44,7 @@ const App = () => {
     }
     const addTask = (tdlId:string, newTitle: string) => {
         const newTask = {id: v1(), title: newTitle, isDone: false};
-        if(newTitle.trim() !== '') {
-            setTasks({...tasks, [tdlId]: [...tasks[tdlId], newTask]});
-        }
+        setTasks({...tasks, [tdlId]: [...tasks[tdlId], newTask]});
     }
     const chnageCheckboxStatus = (tdlId:string, taskId:string) => {
         setTasks({...tasks, [tdlId]: tasks[tdlId].map(task => task.id === taskId ? {...task, isDone: !task.isDone} : task)})
