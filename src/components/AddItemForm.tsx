@@ -1,5 +1,5 @@
 import React, {KeyboardEvent, useState} from 'react';
-import {Button} from "./Button";
+import {ButtonGlob} from "./ButtonGlob";
 import styled from "styled-components";
 
 type AddItemFormType = {
@@ -34,9 +34,9 @@ export const AddItemForm:React.FC<AddItemFormType> = ({callback}) => {
                    onKeyDown={onTitleKeyDownHandler}
                    placeholder={inputError === '' ? 'Write task' : inputError}
             />
-            <Button disabled={newTitle === ''}
-                    clickFunc={onAddTitleClickHandler}
-            >+</Button>
+            <ButtonGlob disabled={newTitle === ''}
+                        clickFunc={onAddTitleClickHandler}
+            >+</ButtonGlob>
         </StyledAddForm>
     );
 };

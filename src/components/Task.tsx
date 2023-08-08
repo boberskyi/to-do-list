@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from "./Button";
+import {ButtonGlob} from "./ButtonGlob";
 import styled from "styled-components";
 import {EditableTitle} from "./EditableTitle";
 
@@ -24,7 +24,7 @@ export const Task:React.FC<TaskPropsType> = (
         <StyledTask key={id}>
             <input type='checkbox' checked={isDone} onChange={() => chnageCheckboxStatus(id)}/>
             <EditableTitle oldTitle={title} callback={(newTitle) => props.updateTaskTitle(newTitle)}/>
-            <Button clickFunc={() => removeTask(id)}>x</Button>
+            <ButtonGlob clickFunc={() => removeTask(id)}>x</ButtonGlob>
         </StyledTask>
     );
 };

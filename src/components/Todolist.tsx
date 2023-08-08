@@ -1,10 +1,11 @@
 import React, {KeyboardEvent, useState} from "react";
 import {FilterValueType} from "../App";
 import {Task} from "./Task";
-import {Button} from "./Button";
+import {ButtonGlob} from "./ButtonGlob";
 import styled from "styled-components";
 import {AddItemForm} from "./AddItemForm";
 import {EditableTitle} from "./EditableTitle";
+import Button from "@mui/material/Button";
 
 export type TodolistPropsType = {
     title: string,
@@ -67,9 +68,15 @@ export const Todolist: React.FC<TodolistPropsType> = (
                         })}
             </StyledTasksWrap>
             <StyledFilterWrap>
-                <Button actived={activeBtn === 'All'} clickFunc={() => onFilterClickHandler('All')}>All</Button>
-                <Button actived={activeBtn === 'Active'} clickFunc={() => onFilterClickHandler('Active')}>Active</Button>
-                <Button actived={activeBtn === 'Completed'} clickFunc={() => onFilterClickHandler('Completed')}>Complete</Button>
+                <Button variant={activeBtn === 'All' ? "contained" : "outlined"}
+                        onClick={() => onFilterClickHandler('All')}
+                        size="small">All</Button>
+                <Button variant={activeBtn === 'Active' ? "contained" : "outlined"}
+                        onClick={() => onFilterClickHandler('Active')}
+                        size="small">Active</Button>
+                <Button variant={activeBtn === 'Completed' ? "contained" : "outlined"}
+                        onClick={() => onFilterClickHandler('Completed')}
+                        size="small">Completed</Button>
             </StyledFilterWrap>
         </StyledTodolist>
     )
