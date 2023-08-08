@@ -1,6 +1,8 @@
 import React, {KeyboardEvent, useState} from 'react';
 import {ButtonGlob} from "./ButtonGlob";
 import styled from "styled-components";
+import Button from "@mui/material/Button";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 type AddItemFormType = {
     callback: (newTitle:string) => void
@@ -34,9 +36,10 @@ export const AddItemForm:React.FC<AddItemFormType> = ({callback}) => {
                    onKeyDown={onTitleKeyDownHandler}
                    placeholder={inputError === '' ? 'Write task' : inputError}
             />
-            <ButtonGlob disabled={newTitle === ''}
-                        clickFunc={onAddTitleClickHandler}
-            >+</ButtonGlob>
+            <Button variant="outlined"
+                    disabled={newTitle === ''}
+                    onClick={onAddTitleClickHandler}
+                    endIcon={<AddCircleOutlineIcon />}>Add</Button>
         </StyledAddForm>
     );
 };
