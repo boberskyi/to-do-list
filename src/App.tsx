@@ -10,6 +10,9 @@ type TodolistsType = {
     title: string,
     filter: FilterValueType
 }
+type TasksType = {
+    [key:string]: TaskType[]
+}
 const App = () => {
     let todolistID1 = v1()
     let todolistID2 = v1()
@@ -19,7 +22,7 @@ const App = () => {
         {id: todolistID2, title: 'What to buy', filter: 'All'},
     ])
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TasksType>({
         [todolistID1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -32,9 +35,6 @@ const App = () => {
         ]
     })
 
-
-
-    const [inputError, setInputError] = useState('');
     const filterTasks = (tdlId:string, filterValue: FilterValueType) => {
         setTodolists(todolists.map(tdl => tdl.id === tdlId ? {...tdl, filter: filterValue} : tdl))
     }
@@ -44,10 +44,7 @@ const App = () => {
     const addTask = (tdlId:string, newTitle: string) => {
         const newTask = {id: v1(), title: newTitle, isDone: false};
         if(newTitle.trim() !== '') {
-            setInputError('');
             setTasks({...tasks, [tdlId]: [...tasks[tdlId], newTask]});
-        } else {
-            setInputError('Error');
         }
     }
     const chnageCheckboxStatus = (tdlId:string, taskId:string) => {
@@ -78,7 +75,6 @@ const App = () => {
                                  filterTasks={filterTasks}
                                  addTask={addTask}
                                  chnageCheckboxStatus={chnageCheckboxStatus}
-                                 inputError={inputError}
                                  removeTodolist={removeTodolist}
                 />
             })}

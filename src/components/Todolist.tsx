@@ -3,6 +3,7 @@ import {FilterValueType} from "../App";
 import {Task} from "./Task";
 import {Button} from "./Button";
 import styled from "styled-components";
+import {AddItemForm} from "./AddItemForm";
 
 export type TodolistPropsType = {
     title: string,
@@ -11,7 +12,6 @@ export type TodolistPropsType = {
     filterTasks: (ftdlId:string, ilterValue: FilterValueType) => void,
     addTask: (tdlId:string, newTitle: string) => void,
     chnageCheckboxStatus: (tdlId:string, taskId:string) => void,
-    inputError: string,
     tdlId:string,
     removeTodolist: (tdlId:string) => void
 }
@@ -28,23 +28,12 @@ export const Todolist: React.FC<TodolistPropsType> = (
         filterTasks,
         addTask,
         chnageCheckboxStatus,
-        inputError,
         ...props
     }) => {
 
-    let [newTitle, setNewTitle] = useState<string>('');
+
     let [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
-    const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTitle(e.currentTarget.value);
-    }
-    const addTaskAndResetTitle = () => {
-        addTask(props.tdlId, newTitle);
-        setNewTitle('');
-    }
-    const onTitleKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>) => {
-        e.code === 'Enter' && addTaskAndResetTitle();
-    }
-    const onAddTitleClickHandler = () =>  addTaskAndResetTitle();
+
 
     const onFilterClickHandler = (value:FilterValueType) => {
         filterTasks(props.tdlId, value);
@@ -54,16 +43,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
     return (
         <StyledTodolist>
             <h3>{title} <button onClick={() => props.removeTodolist(props.tdlId)}>x</button></h3>
-            <StyledAddTask error={inputError}>
-                <input value={newTitle}
-                       onChange={onTitleChangeHandler}
-                       onKeyDown={onTitleKeyDownHandler}
-                       placeholder={inputError === '' ? 'Write task' : inputError}
-                />
-                <Button disabled={newTitle === ''}
-                        clickFunc={onAddTitleClickHandler}
-                >+</Button>
-            </StyledAddTask>
+            <AddItemForm callback={(newTitle:string) => addTask(props.tdlId, newTitle)} />
             <StyledTasksWrap>
                 {
                     tasks.length === 0
@@ -103,20 +83,7 @@ const StyledFilterWrap = styled.div`
   align-items: center;
   gap: 10px;
 `
-interface StyledAddTaskType {
-    error: string
-}
-const StyledAddTask = styled.div<StyledAddTaskType>`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  
-  input {
-    border-width: 2px;
-    border-style: solid;
-    border-color: ${props => props.error === '' ? 'black' : 'red'};
-  }
-`
+
 const StyledTasksWrap = styled.div`
   display: flex;
   flex-direction: column;
