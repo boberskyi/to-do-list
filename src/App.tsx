@@ -58,6 +58,9 @@ const App = () => {
         setTodolists([{id: newTdlId, title: newTitle, filter: 'All'},...todolists]);
         setTasks({...tasks, [newTdlId]: []})
     }
+    const updateTaskTitle = (tdlId:string, taskId:string, newTitle:string) => {
+         setTasks({...tasks, [tdlId]: tasks[tdlId].map(el => el.id === taskId ? {...el, title: newTitle}: el)});
+    }
 
     return (
         <div className="App">
@@ -81,6 +84,7 @@ const App = () => {
                                  addTask={addTask}
                                  chnageCheckboxStatus={chnageCheckboxStatus}
                                  removeTodolist={removeTodolist}
+                                 updateTaskTitle={(tdlId:string, taskId:string, newTitle:string) => updateTaskTitle(tdlId, taskId, newTitle)}
                 />
             })}
         </div>

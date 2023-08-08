@@ -1,13 +1,15 @@
 import React from 'react';
 import {Button} from "./Button";
 import styled from "styled-components";
+import {EditableTitle} from "./EditableTitle";
 
 type TaskPropsType = {
     id:string,
     title: string,
     isDone: boolean,
     removeTask: (taskId: string) => void,
-    chnageCheckboxStatus: (taskId:string) => void
+    chnageCheckboxStatus: (taskId:string) => void,
+    updateTaskTitle: (newTitle:string) => void
 }
 export const Task:React.FC<TaskPropsType> = (
     {
@@ -15,12 +17,13 @@ export const Task:React.FC<TaskPropsType> = (
         title,
         isDone,
         removeTask,
-        chnageCheckboxStatus
+        chnageCheckboxStatus,
+        ...props
     }) => {
     return (
         <StyledTask key={id}>
             <input type='checkbox' checked={isDone} onChange={() => chnageCheckboxStatus(id)}/>
-            <span>{title}</span>
+            <EditableTitle oldTitle={title} callback={(newTitle) => props.updateTaskTitle(newTitle)}/>
             <Button clickFunc={() => removeTask(id)}>x</Button>
         </StyledTask>
     );
