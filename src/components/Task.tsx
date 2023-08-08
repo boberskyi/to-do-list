@@ -1,17 +1,18 @@
 import React from 'react';
-import {ButtonGlob} from "./ButtonGlob";
 import styled from "styled-components";
 import {EditableTitle} from "./EditableTitle";
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from "@mui/material/IconButton";
 
 type TaskPropsType = {
-    id:string,
+    id: string,
     title: string,
     isDone: boolean,
     removeTask: (taskId: string) => void,
-    chnageCheckboxStatus: (taskId:string) => void,
-    updateTaskTitle: (newTitle:string) => void
+    chnageCheckboxStatus: (taskId: string) => void,
+    updateTaskTitle: (newTitle: string) => void
 }
-export const Task:React.FC<TaskPropsType> = (
+export const Task: React.FC<TaskPropsType> = (
     {
         id,
         title,
@@ -24,7 +25,11 @@ export const Task:React.FC<TaskPropsType> = (
         <StyledTask key={id}>
             <input type='checkbox' checked={isDone} onChange={() => chnageCheckboxStatus(id)}/>
             <EditableTitle oldTitle={title} callback={(newTitle) => props.updateTaskTitle(newTitle)}/>
-            <ButtonGlob clickFunc={() => removeTask(id)}>x</ButtonGlob>
+            <IconButton onClick={() => removeTask(id)}
+                        aria-label="delete"
+                        size="small">
+                <ClearIcon/>
+            </IconButton>
         </StyledTask>
     );
 };

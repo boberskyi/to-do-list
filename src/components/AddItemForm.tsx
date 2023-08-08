@@ -37,6 +37,7 @@ export const AddItemForm:React.FC<AddItemFormType> = ({callback}) => {
                    placeholder={inputError === '' ? 'Write task' : inputError}
             />
             <Button variant="outlined"
+                    size="small"
                     disabled={newTitle === ''}
                     onClick={onAddTitleClickHandler}
                     endIcon={<AddCircleOutlineIcon />}>Add</Button>

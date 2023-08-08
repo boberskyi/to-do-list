@@ -1,7 +1,8 @@
 import React, {KeyboardEvent, useState} from "react";
 import {FilterValueType} from "../App";
 import {Task} from "./Task";
-import {ButtonGlob} from "./ButtonGlob";
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
 import styled from "styled-components";
 import {AddItemForm} from "./AddItemForm";
 import {EditableTitle} from "./EditableTitle";
@@ -10,14 +11,14 @@ import Button from "@mui/material/Button";
 export type TodolistPropsType = {
     title: string,
     tasks: TaskType[],
-    removeTask: (tdlId:string, taskId: string) => void,
-    filterTasks: (ftdlId:string, ilterValue: FilterValueType) => void,
-    addTask: (tdlId:string, newTitle: string) => void,
-    chnageCheckboxStatus: (tdlId:string, taskId:string) => void,
-    tdlId:string,
-    removeTodolist: (tdlId:string) => void,
-    updateTdlTitle: (tdlId:string, newTitle:string) => void,
-    updateTaskTitle: (tdlId:string, taskId:string, newTitle:string) => void
+    removeTask: (tdlId: string, taskId: string) => void,
+    filterTasks: (ftdlId: string, ilterValue: FilterValueType) => void,
+    addTask: (tdlId: string, newTitle: string) => void,
+    chnageCheckboxStatus: (tdlId: string, taskId: string) => void,
+    tdlId: string,
+    removeTodolist: (tdlId: string) => void,
+    updateTdlTitle: (tdlId: string, newTitle: string) => void,
+    updateTaskTitle: (tdlId: string, taskId: string, newTitle: string) => void
 }
 export type TaskType = {
     id: string,
@@ -39,7 +40,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
     let [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
 
 
-    const onFilterClickHandler = (value:FilterValueType) => {
+    const onFilterClickHandler = (value: FilterValueType) => {
         filterTasks(props.tdlId, value);
         setActiveBtn(value);
     }
@@ -47,10 +48,15 @@ export const Todolist: React.FC<TodolistPropsType> = (
     return (
         <StyledTodolist>
             <h3>
-                <EditableTitle oldTitle={title} callback={(newTitle:string) => props.updateTdlTitle(props.tdlId, newTitle)} />
-                <button onClick={() => props.removeTodolist(props.tdlId)}>x</button>
+                <EditableTitle oldTitle={title}
+                               callback={(newTitle: string) => props.updateTdlTitle(props.tdlId, newTitle)}/>
+                <IconButton onClick={() => props.removeTodolist(props.tdlId)}
+                            aria-label="delete"
+                            size="small">
+                    <ClearIcon/>
+                </IconButton>
             </h3>
-            <AddItemForm callback={(newTitle:string) => addTask(props.tdlId, newTitle)} />
+            <AddItemForm callback={(newTitle: string) => addTask(props.tdlId, newTitle)}/>
             <StyledTasksWrap>
                 {
                     tasks.length === 0
