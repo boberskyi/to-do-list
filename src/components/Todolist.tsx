@@ -4,6 +4,7 @@ import {Task} from "./Task";
 import {Button} from "./Button";
 import styled from "styled-components";
 import {AddItemForm} from "./AddItemForm";
+import {EditableTitle} from "./EditableTitle";
 
 export type TodolistPropsType = {
     title: string,
@@ -14,6 +15,7 @@ export type TodolistPropsType = {
     chnageCheckboxStatus: (tdlId:string, taskId:string) => void,
     tdlId:string,
     removeTodolist: (tdlId:string) => void,
+    updateTdlTitle: (tdlId:string, newTitle:string) => void,
     updateTaskTitle: (tdlId:string, taskId:string, newTitle:string) => void
 }
 export type TaskType = {
@@ -43,7 +45,10 @@ export const Todolist: React.FC<TodolistPropsType> = (
 
     return (
         <StyledTodolist>
-            <h3>{title} <button onClick={() => props.removeTodolist(props.tdlId)}>x</button></h3>
+            <h3>
+                <EditableTitle oldTitle={title} callback={(newTitle:string) => props.updateTdlTitle(props.tdlId, newTitle)} />
+                <button onClick={() => props.removeTodolist(props.tdlId)}>x</button>
+            </h3>
             <AddItemForm callback={(newTitle:string) => addTask(props.tdlId, newTitle)} />
             <StyledTasksWrap>
                 {
