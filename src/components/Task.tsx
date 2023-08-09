@@ -23,7 +23,7 @@ export const Task: React.FC<TaskPropsType> = (
         ...props
     }) => {
     return (
-        <StyledTask key={id}>
+        <StyledTask key={id} isDone={isDone}>
             <Checkbox checked={isDone} size="small" onChange={() => chnageCheckboxStatus(id)} />
             <EditableTitle oldTitle={title} callback={(newTitle) => props.updateTaskTitle(newTitle)}/>
             <IconButton onClick={() => removeTask(id)}
@@ -35,8 +35,12 @@ export const Task: React.FC<TaskPropsType> = (
     );
 };
 
-const StyledTask = styled.li`
+interface StyledTaskType {
+    isDone: boolean
+}
+const StyledTask = styled.li<StyledTaskType>`
   display: flex;
   align-items: center;
   gap: 10px;
+  opacity: ${props => props.isDone ? '0.4' : '1'};
 `
