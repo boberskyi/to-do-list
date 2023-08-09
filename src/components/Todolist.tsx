@@ -7,6 +7,7 @@ import styled from "styled-components";
 import {AddItemForm} from "./AddItemForm";
 import {EditableTitle} from "./EditableTitle";
 import Button from "@mui/material/Button";
+import Paper from '@mui/material/Paper';
 
 export type TodolistPropsType = {
     title: string,
@@ -46,45 +47,49 @@ export const Todolist: React.FC<TodolistPropsType> = (
     }
 
     return (
-        <StyledTodolist>
-            <h3>
-                <EditableTitle oldTitle={title}
-                               callback={(newTitle: string) => props.updateTdlTitle(props.tdlId, newTitle)}/>
-                <IconButton onClick={() => props.removeTodolist(props.tdlId)}
-                            aria-label="delete"
-                            size="small">
-                    <ClearIcon/>
-                </IconButton>
-            </h3>
-            <AddItemForm callback={(newTitle: string) => addTask(props.tdlId, newTitle)}/>
-            <StyledTasksWrap>
-                {
-                    tasks.length === 0
-                        ? <div>No tasks</div>
-                        : tasks.map(t => {
-                            return <Task
-                                key={t.id}
-                                id={t.id}
-                                title={t.title}
-                                isDone={t.isDone}
-                                removeTask={() => removeTask(props.tdlId, t.id)}
-                                chnageCheckboxStatus={() => chnageCheckboxStatus(props.tdlId, t.id)}
-                                updateTaskTitle={(newTitle) => props.updateTaskTitle(props.tdlId, t.id, newTitle)}
-                            />
-                        })}
-            </StyledTasksWrap>
-            <StyledFilterWrap>
-                <Button variant={activeBtn === 'All' ? "contained" : "outlined"}
-                        onClick={() => onFilterClickHandler('All')}
-                        size="small">All</Button>
-                <Button variant={activeBtn === 'Active' ? "contained" : "outlined"}
-                        onClick={() => onFilterClickHandler('Active')}
-                        size="small">Active</Button>
-                <Button variant={activeBtn === 'Completed' ? "contained" : "outlined"}
-                        onClick={() => onFilterClickHandler('Completed')}
-                        size="small">Completed</Button>
-            </StyledFilterWrap>
-        </StyledTodolist>
+        <Paper variant="outlined" elevation={1}>
+            <StyledTodolist>
+                <StyledTodoListTitle>
+                    <EditableTitle oldTitle={title}
+                                   callback={(newTitle: string) => props.updateTdlTitle(props.tdlId, newTitle)}/>
+                    <IconButton onClick={() => props.removeTodolist(props.tdlId)}
+                                aria-label="delete"
+                                size="small">
+                        <ClearIcon/>
+                    </IconButton>
+                </StyledTodoListTitle>
+                <AddItemForm callback={(newTitle: string) => addTask(props.tdlId, newTitle)}/>
+                <Paper variant="outlined" elevation={1}>
+                    <StyledTasksWrap>
+                        {
+                            tasks.length === 0
+                                ? <div>No tasks</div>
+                                : tasks.map(t => {
+                                    return <Task
+                                        key={t.id}
+                                        id={t.id}
+                                        title={t.title}
+                                        isDone={t.isDone}
+                                        removeTask={() => removeTask(props.tdlId, t.id)}
+                                        chnageCheckboxStatus={() => chnageCheckboxStatus(props.tdlId, t.id)}
+                                        updateTaskTitle={(newTitle) => props.updateTaskTitle(props.tdlId, t.id, newTitle)}
+                                    />
+                                })}
+                    </StyledTasksWrap>
+                </Paper>
+                <StyledFilterWrap>
+                    <Button variant={activeBtn === 'All' ? "contained" : "outlined"}
+                            onClick={() => onFilterClickHandler('All')}
+                            size="small">All</Button>
+                    <Button variant={activeBtn === 'Active' ? "contained" : "outlined"}
+                            onClick={() => onFilterClickHandler('Active')}
+                            size="small">Active</Button>
+                    <Button variant={activeBtn === 'Completed' ? "contained" : "outlined"}
+                            onClick={() => onFilterClickHandler('Completed')}
+                            size="small">Completed</Button>
+                </StyledFilterWrap>
+            </StyledTodolist>
+        </Paper>
     )
 }
 
@@ -95,7 +100,6 @@ const StyledTodolist = styled.div`
   padding: 20px;
   max-width: 300px;
   width: 100%;
-  border: 1px solid black;
   border-radius: 5px;
 `
 const StyledFilterWrap = styled.div`
@@ -108,6 +112,10 @@ const StyledTasksWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid black;
   padding: 10px;
+`
+const StyledTodoListTitle = styled.h3`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `
