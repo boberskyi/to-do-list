@@ -1,8 +1,8 @@
 import React, {KeyboardEvent, useState} from 'react';
-import {ButtonGlob} from "./ButtonGlob";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import TextField from "@mui/material/TextField";
 
 type AddItemFormType = {
     callback: (newTitle:string) => void
@@ -30,14 +30,17 @@ export const AddItemForm:React.FC<AddItemFormType> = ({callback}) => {
     const onAddTitleClickHandler = () => addTaskAndResetTitle();
 
     return (
-        <StyledAddForm error={inputError}>
-            <input value={newTitle}
-                   onChange={onTitleChangeHandler}
-                   onKeyDown={onTitleKeyDownHandler}
-                   placeholder={inputError === '' ? 'Write task' : inputError}
-            />
+        <StyledAddForm >
+            <TextField value={newTitle}
+                       onChange={onTitleChangeHandler}
+                       onKeyDown={onTitleKeyDownHandler}
+                       label={inputError === '' ? 'Write task' : inputError}
+                       size={"small"}
+                       error={inputError !== ''}
+                       variant="outlined" />
+
             <Button variant="outlined"
-                    size="small"
+                    size="large"
                     disabled={newTitle === ''}
                     onClick={onAddTitleClickHandler}
                     endIcon={<AddCircleOutlineIcon />}>Add</Button>
@@ -45,17 +48,8 @@ export const AddItemForm:React.FC<AddItemFormType> = ({callback}) => {
     );
 };
 
-interface StyledAddFormType {
-    error: string
-}
-const StyledAddForm = styled.div<StyledAddFormType>`
+const StyledAddForm = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  
-  input {
-    border-width: 2px;
-    border-style: solid;
-    border-color: ${props => props.error === '' ? 'black' : 'red'};
-  }
 `
