@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
+import TextField from '@mui/material/TextField';
 
 type EditableTitleType = {
     oldTitle: string,
@@ -21,11 +22,18 @@ export const EditableTitle:React.FC<EditableTitleType> = ({oldTitle,callback}) =
         <div>
             {
                 editableMod
-                    ? <input value={newTitle}
-                             type="text"
-                             onChange={onTitleChange}
-                             onBlur={onInputLeave}
-                             autoFocus />
+                    ?
+                    // <input value={newTitle}
+                    //          type="text"
+                    //          onChange={onTitleChange}
+                    //          onBlur={onInputLeave}
+                    //          autoFocus />
+                    <TextField value={newTitle}
+                               type="text"
+                               onChange={onTitleChange}
+                               onBlur={onInputLeave}
+                               autoFocus
+                               variant="standard" />
                     : <span onDoubleClick={onTitleClicked}>{oldTitle}</span>
             }
 
