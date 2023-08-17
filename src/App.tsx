@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 
 export type FilterValueType = 'All' | 'Completed' | 'Active';
-type TodolistsType = {
+export type TodolistsType = {
     id: string,
     title: string,
     filter: FilterValueType
