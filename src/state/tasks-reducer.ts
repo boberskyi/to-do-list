@@ -1,11 +1,12 @@
 import {TasksType} from "../App";
 import {v1} from "uuid";
 
-type ActionType = RemoveTaskACType | AddTaskACType | ChangeTaskStatusACType;
+type ActionType = RemoveTaskACType | AddTaskACType | ChangeTaskStatusACType | ChangeTaskTitleACType;
 
 type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
 type AddTaskACType = ReturnType<typeof addTaskAC>;
 type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
+type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
 
 
 export const tasksReducer = (state: TasksType, action: ActionType):TasksType => {
@@ -18,6 +19,9 @@ export const tasksReducer = (state: TasksType, action: ActionType):TasksType => 
         }
         case 'CHANGE-TASK-STATUS': {
             return {...state, [action.payload.tdlId]: state[action.payload.tdlId].map(task => task.id === action.payload.taskId ? {...task, isDone: action.payload.isDone}: task)}
+        }
+        case 'CHANGE-TASK-TITLE': {
+            return {...state, [action.payload.tdlId]: state[action.payload.tdlId].map(task => task.id === action.payload.taskId ? {...task, title: action.payload.title} : task)}
         }
         default:
             throw new Error('I don\'t understand this type')
@@ -48,6 +52,16 @@ export const changeTaskStatusAC = (taskId:string, isDone:boolean, tdlId:string) 
         payload: {
             taskId,
             isDone,
+            tdlId
+        }
+    } as const
+}
+export const changeTaskTitleAC = (taskId:string, title:string, tdlId:string) => {
+    return {
+        type: 'CHANGE-TASK-TITLE',
+        payload: {
+            taskId,
+            title,
             tdlId
         }
     } as const
