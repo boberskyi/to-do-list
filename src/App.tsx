@@ -12,7 +12,7 @@ export type TodolistsType = {
     title: string,
     filter: FilterValueType
 }
-type TasksType = {
+export type TasksType = {
     [key: string]: TaskType[]
 }
 const App = () => {
