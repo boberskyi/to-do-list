@@ -3,7 +3,7 @@ import {v1} from "uuid";
 
 type ActionType =RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType;
 
-type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
+export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>;
 type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>;
 type ChangeTodolistFilterACType = ReturnType<typeof changeTodolistFilterAC>;
