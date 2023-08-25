@@ -1,6 +1,4 @@
-import React, {KeyboardEvent, useState} from "react";
-import {FilterValueType} from "../App";
-import {Task} from "./Task";
+import React, {useState} from "react";
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import styled from "styled-components";
@@ -8,58 +6,61 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableTitle} from "./EditableTitle";
 import Button from "@mui/material/Button";
 import Paper from '@mui/material/Paper';
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../state/store";
+import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "../state/todolists-reducer";
+import {addTaskAC} from "../state/tasks-reducer";
+import {FilterValueType, TodolistsType} from "../App";
+import {Task} from "./Task";
 
 export type TodolistPropsType = {
-    title: string,
-    tasks: TaskType[],
-    removeTask: (tdlId: string, taskId: string) => void,
-    filterTasks: (ftdlId: string, ilterValue: FilterValueType) => void,
-    addTask: (tdlId: string, newTitle: string) => void,
-    chnageCheckboxStatus: (tdlId: string, taskId: string) => void,
     tdlId: string,
-    removeTodolist: (tdlId: string) => void,
-    updateTdlTitle: (tdlId: string, newTitle: string) => void,
-    updateTaskTitle: (tdlId: string, taskId: string, newTitle: string) => void
 }
 export type TaskType = {
     id: string,
     title: string,
-    isDone: boolean
+    isdone: boolean
 }
-export const Todolist: React.FC<TodolistPropsType> = (
-    {
-        title,
-        tasks,
-        removeTask,
-        filterTasks,
-        addTask,
-        chnageCheckboxStatus,
-        ...props
-    }) => {
+export const Todolist: React.FC<TodolistPropsType> = ({tdlId}) => {
+
+    let todolist = useSelector<AppRootStateType, TodolistsType[]>(state => {
+        return state.todolists.filter(tdl => tdlId === tdl.id);
+    })[0];
+    let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[tdlId]);
+    const {id,title, filter} = todolist;
+    const dispatch = useDispatch();
+    const [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
 
 
-    let [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
+    if (filter === 'Completed') {
+        tasks = tasks.filter(task => task.isdone);
+    }
+    if (filter === 'Active') {
+        tasks = tasks.filter(task => !task.isdone);
+    }
 
 
     const onFilterClickHandler = (value: FilterValueType) => {
-        filterTasks(props.tdlId, value);
+        dispatch(changeTodolistFilterAC(id,value))
         setActiveBtn(value);
     }
+    const addTask = (newTitle: string) => {
+        dispatch(addTaskAC(newTitle, id));
+    }
+    const removeTodolist = () => dispatch(removeTodolistAC(id));
+    const updateTdlTitle = (newTitle: string) => dispatch(changeTodolistTitleAC(id, newTitle));
 
     return (
-        <Paper variant="outlined" elevation={1}>
+        <Paper variant="outlined">
             <StyledTodolist>
                 <StyledTodoListTitle>
-                    <EditableTitle oldTitle={title}
-                                   callback={(newTitle: string) => props.updateTdlTitle(props.tdlId, newTitle)}/>
-                    <IconButton onClick={() => props.removeTodolist(props.tdlId)}
-                                aria-label="delete"
-                                size="small">
+                    <EditableTitle oldTitle={title} callback={updateTdlTitle}/>
+                    <IconButton onClick={removeTodolist} aria-label="delete" size="small">
                         <ClearIcon/>
                     </IconButton>
                 </StyledTodoListTitle>
-                <AddItemForm callback={(newTitle: string) => addTask(props.tdlId, newTitle)}/>
-                <Paper variant="outlined" elevation={1}>
+                <AddItemForm callback={addTask}/>
+                <Paper variant="outlined">
                     <StyledTasksWrap>
                         {
                             tasks.length === 0
@@ -67,12 +68,8 @@ export const Todolist: React.FC<TodolistPropsType> = (
                                 : tasks.map(t => {
                                     return <Task
                                         key={t.id}
-                                        id={t.id}
-                                        title={t.title}
-                                        isDone={t.isDone}
-                                        removeTask={() => removeTask(props.tdlId, t.id)}
-                                        chnageCheckboxStatus={() => chnageCheckboxStatus(props.tdlId, t.id)}
-                                        updateTaskTitle={(newTitle) => props.updateTaskTitle(props.tdlId, t.id, newTitle)}
+                                        task={t}
+                                        tdlId={id}
                                     />
                                 })}
                     </StyledTasksWrap>

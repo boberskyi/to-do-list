@@ -22,13 +22,7 @@ export const EditableTitle:React.FC<EditableTitleType> = ({oldTitle,callback}) =
         <div>
             {
                 editableMod
-                    ?
-                    // <input value={newTitle}
-                    //          type="text"
-                    //          onChange={onTitleChange}
-                    //          onBlur={onInputLeave}
-                    //          autoFocus />
-                    <TextField value={newTitle}
+                    ? <TextField value={newTitle}
                                type="text"
                                onChange={onTitleChange}
                                onBlur={onInputLeave}

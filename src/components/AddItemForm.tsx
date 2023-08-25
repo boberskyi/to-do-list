@@ -31,7 +31,7 @@ export const AddItemForm: React.FC<AddItemFormType> = ({callback}) => {
     const onAddTitleClickHandler = () => addTaskAndResetTitle();
 
     return (
-        <Paper variant="outlined" elevation={1}>
+        <Paper variant="outlined">
             <StyledAddForm>
                 <TextField value={newTitle}
                            onChange={onTitleChangeHandler}

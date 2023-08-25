@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from "styled-components";
 import Button from '@mui/material/Button';
 
 type ButtonType = {
@@ -17,12 +16,6 @@ export const ButtonGlob:React.FC<ButtonType> = (
     }) => {
 
     return (
-        // <StyledButton
-        //     actived={props.actived}
-        //     onClick={clickFunc}
-        //     disabled={disabled}>
-        //     {children}
-        // </StyledButton>
         <Button variant={props.actived ? "contained" : "outlined"}
                 disabled={disabled}
                 onClick={clickFunc}
