@@ -1,4 +1,4 @@
-import React, {KeyboardEvent, useState} from 'react';
+import React, {KeyboardEvent, memo, useState} from 'react';
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -9,12 +9,13 @@ type AddItemFormType = {
     callback: (newTitle: string) => void
 }
 
-export const AddItemForm: React.FC<AddItemFormType> = ({callback}) => {
+export const AddItemForm: React.FC<AddItemFormType> = memo(({callback}) => {
     const [inputError, setInputError] = useState('');
     let [newTitle, setNewTitle] = useState<string>('');
 
     const addTaskAndResetTitle = () => {
         setNewTitle('');
+
         if (newTitle.trim() !== '') {
             callback(newTitle)
             setInputError('');
@@ -22,9 +23,7 @@ export const AddItemForm: React.FC<AddItemFormType> = ({callback}) => {
             setInputError('Error');
         }
     }
-    const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTitle(e.currentTarget.value);
-    }
+    const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => setNewTitle(e.currentTarget.value);
     const onTitleKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         e.code === 'Enter' && addTaskAndResetTitle();
     }
@@ -49,7 +48,7 @@ export const AddItemForm: React.FC<AddItemFormType> = ({callback}) => {
             </StyledAddForm>
         </Paper>
     );
-};
+});
 
 const StyledAddForm = styled.div`
   display: flex;

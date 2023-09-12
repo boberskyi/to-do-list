@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {AddItemForm} from "./components/AddItemForm";
 import styled from "styled-components";
@@ -19,10 +19,10 @@ const App = () => {
     const todolists = useSelector<AppRootStateType, TodolistsType[]>(state => state.todolists);
     const dispatch = useDispatch();
 
-    const addTodolist = (newTitle: string) => {
+    const addTodolist = useCallback((newTitle: string) => {
         let action = addTodolistAC(newTitle);
         dispatch(action);
-    }
+    }, [dispatch]);
 
     return (
         <div className="App">

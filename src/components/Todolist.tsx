@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import styled from "styled-components";
@@ -44,9 +44,9 @@ export const Todolist: React.FC<TodolistPropsType> = ({tdlId}) => {
         dispatch(changeTodolistFilterAC(id,value))
         setActiveBtn(value);
     }
-    const addTask = (newTitle: string) => {
+    const addTask = useCallback((newTitle: string) => {
         dispatch(addTaskAC(newTitle, id));
-    }
+    },[dispatch, id]);
     const removeTodolist = () => dispatch(removeTodolistAC(id));
     const updateTdlTitle = (newTitle: string) => dispatch(changeTodolistTitleAC(id, newTitle));
 
@@ -59,7 +59,9 @@ export const Todolist: React.FC<TodolistPropsType> = ({tdlId}) => {
                         <ClearIcon/>
                     </IconButton>
                 </StyledTodoListTitle>
+
                 <AddItemForm callback={addTask}/>
+
                 <Paper variant="outlined">
                     <StyledTasksWrap>
                         {
