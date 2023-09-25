@@ -1,18 +1,20 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 import TextField from '@mui/material/TextField';
 
 type EditableTitleType = {
     oldTitle: string,
     callback: (newTitle:string) => void
 }
-export const EditableTitle:React.FC<EditableTitleType> = ({oldTitle,callback}) => {
+export const EditableTitle:React.FC<EditableTitleType> = memo(({...props}) => {
+    console.log('Editable Title');
+
     const [editableMod, setEditableMod] = useState<boolean>(false);
-    const [newTitle, setNewTitle] = useState<string>(oldTitle)
+    const [newTitle, setNewTitle] = useState<string>(props.oldTitle)
 
     const onTitleClicked = () => setEditableMod(true);
     const onInputLeave = () => {
         setEditableMod(false);
-        callback(newTitle);
+        props.callback(newTitle);
     }
     const onTitleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.currentTarget.value)
@@ -28,9 +30,9 @@ export const EditableTitle:React.FC<EditableTitleType> = ({oldTitle,callback}) =
                                onBlur={onInputLeave}
                                autoFocus
                                variant="standard" />
-                    : <span onDoubleClick={onTitleClicked}>{oldTitle}</span>
+                    : <span onDoubleClick={onTitleClicked}>{props.oldTitle}</span>
             }
 
         </div>
     );
-};
+});

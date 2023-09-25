@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {AddTodolistACType, RemoveTodolistACType} from "./todolists-reducer";
-import {TaskType} from "../components/Todolist";
+import {TaskType} from "../components/todolist/Todolist";
 
 type ActionType = RemoveTaskACType | AddTaskACType | ChangeTaskStatusACType | ChangeTaskTitleACType | AddTodolistACType | RemoveTodolistACType;
 
