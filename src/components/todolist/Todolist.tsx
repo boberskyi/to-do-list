@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Paper from '@mui/material/Paper';
 import {FilterValueType} from "../../App";
 import {Task} from "../Task";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../state/tasks-reducer";
 
 export type TodolistPropsType = {
     tdlId: string,
@@ -17,7 +18,10 @@ export type TodolistPropsType = {
     changeTodolistFilter: (id:string, value: FilterValueType) => void,
     removeTodolist: (id:string) => void,
     filter: FilterValueType,
-    updateTdlTitle: (id:string, newTitle: string) => void
+    updateTdlTitle: (id:string, newTitle: string) => void,
+    removeTask: (taskId:string, tdlId:string) => void,
+    updateTaskTitle: (taskId:string, newTitle: string, tdlId:string) => void,
+    chnageCheckboxStatus: (taskId:string, tdlId:string) => void
 }
 export type TaskType = {
     id: string,
@@ -54,6 +58,11 @@ export const Todolist: React.FC<TodolistPropsType> = memo(({...props}) => {
         props.updateTdlTitle(props.tdlId, newTitle)
     },[props.updateTdlTitle, props.tdlId]);
 
+
+    const chnageCheckboxStatus = (taskId:string, tdlId:string) => props.chnageCheckboxStatus(taskId, tdlId);
+    const updateTaskTitle = (newTitle: string, taskId:string, tdlId:string) => props.updateTaskTitle(taskId, newTitle, tdlId);
+    const removeTask = (taskId:string, tdlId:string) => props.removeTask(taskId, tdlId);
+
     return (
         <Paper variant="outlined">
             <StyledTodolist>
@@ -76,6 +85,9 @@ export const Todolist: React.FC<TodolistPropsType> = memo(({...props}) => {
                                         key={t.id}
                                         task={t}
                                         tdlId={props.tdlId}
+                                        chnageCheckboxStatus={chnageCheckboxStatus}
+                                        updateTaskTitle={updateTaskTitle}
+                                        removeTask={removeTask}
                                     />
                                 })}
                     </StyledTasksWrap>

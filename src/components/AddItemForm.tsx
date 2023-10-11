@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import TextField from "@mui/material/TextField";
 import Paper from '@mui/material/Paper';
 
-type AddItemFormType = {
+export type AddItemFormType = {
     callback: (newTitle: string) => void
 }
 
@@ -50,7 +50,7 @@ export const AddItemForm: React.FC<AddItemFormType> = memo(({callback}) => {
     );
 });
 
-const StyledAddForm = styled.div`
+export const StyledAddForm = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;

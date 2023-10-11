@@ -4,21 +4,20 @@ import {EditableTitle} from "./EditableTitle";
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from "@mui/material/IconButton";
 import Checkbox from '@mui/material/Checkbox';
-import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
 import {TaskType} from "./todolist/Todolist";
 
-type TaskPropsType = {
+export type TaskPropsType = {
     task: TaskType,
-    tdlId: string
+    tdlId: string,
+    removeTask: (taskId:string, tdlId:string) => void,
+    updateTaskTitle: (taskId:string, newTitle: string, tdlId:string) => void,
+    chnageCheckboxStatus: (taskId:string, tdlId:string) => void
 }
-export const Task: React.FC<TaskPropsType> = memo(({task, tdlId}) => {
-    const dispatch = useDispatch();
-    const chnageCheckboxStatus = () => dispatch(changeTaskStatusAC(task.id, tdlId));
-    const updateTaskTitle = useCallback((newTitle: string) => {
-        dispatch(changeTaskTitleAC(task.id, newTitle, tdlId))
-    }, [dispatch, task.id, tdlId]);
-    const removeTask = () => dispatch(removeTaskAC(task.id, tdlId));
+export const Task: React.FC<TaskPropsType> = memo(({task, tdlId, ...props}) => {
+    const chnageCheckboxStatus = () => props.chnageCheckboxStatus(task.id, tdlId);
+    const updateTaskTitle = useCallback((newTitle: string) => props.updateTaskTitle(task.id, newTitle, tdlId),[task.id, tdlId]);
+    const removeTask = () => props.removeTask(task.id, tdlId);
+
     return (
         <StyledTask key={task.id} isdone={task.isdone.toString()}>
             <Checkbox checked={task.isdone} size="small" onChange={chnageCheckboxStatus}/>
@@ -30,11 +29,11 @@ export const Task: React.FC<TaskPropsType> = memo(({task, tdlId}) => {
     );
 });
 
-interface StyledTaskType {
+export interface StyledTaskType {
     isdone: string
 }
 
-const StyledTask = styled.li<StyledTaskType>`
+export const StyledTask = styled.li<StyledTaskType>`
   display: flex;
   align-items: center;
   gap: 10px;
