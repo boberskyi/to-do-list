@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {FilterValueType, TodolistsType} from "../App";
+import {FilterValueType, TodolistsType} from "../components/App/AppTypes";
 
 export type ActionType = RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType;
 

@@ -1,13 +1,15 @@
 import {v1} from "uuid";
 import {AddTodolistACType, RemoveTodolistACType} from "./todolists-reducer";
-import {TaskType} from "../components/todolist/Todolist";
+import {TaskType} from "../components/App/Todolist/TodolistTypes";
 
-type ActionType = RemoveTaskACType | AddTaskACType | ChangeTaskStatusACType | ChangeTaskTitleACType | AddTodolistACType | RemoveTodolistACType;
+type ActionType = ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof addTaskAC>
+    | ReturnType<typeof changeTaskStatusAC>
+    | ReturnType<typeof changeTaskTitleAC>
+    | AddTodolistACType
+    | RemoveTodolistACType;
 
-type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
-type AddTaskACType = ReturnType<typeof addTaskAC>;
-type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
-type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>;
+
 export type TasksType = {
     [key: string]: TaskType[]
 }

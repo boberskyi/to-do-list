@@ -58,8 +58,8 @@ test('title of specified task should be changed', () => {
     expect(endState['todolistId2'][1].title).toBe('New title');
     expect(endState['todolistId1'][1].title).toBe('JS');
 })
-test('new array should be added when new todolist is added', () => {
-    const action = addTodolistAC('new todolist')
+test('new array should be added when new Todolist is added', () => {
+    const action = addTodolistAC('new Todolist')
     const endState = tasksReducer(startState, action)
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k !== 'todolistId1' && k !== 'todolistId2')
