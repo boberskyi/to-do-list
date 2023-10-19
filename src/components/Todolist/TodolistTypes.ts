@@ -1,4 +1,4 @@
-import {TodolistsType} from "../AppTypes";
+import {TodolistsType} from "../../AppTypes";
 
 export type TodolistPropsType = {
     tdl: TodolistsType
