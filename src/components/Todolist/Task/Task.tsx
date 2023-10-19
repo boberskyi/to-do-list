@@ -1,15 +1,18 @@
-import React, {memo, useCallback} from 'react';
+import React from 'react';
 import {EditableTitle} from "../../EditableTitle/EditableTitle";
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from "@mui/material/IconButton";
 import Checkbox from '@mui/material/Checkbox';
 import {TaskPropsType} from "./TaskTypes";
 import { StyledTask } from './TaskStyles';
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../../state/tasks-reducer";
+import {useDispatch} from "react-redux";
 
-export const Task: React.FC<TaskPropsType> = memo(({task, tdlId, ...props}) => {
-    const chnageCheckboxStatus = () => props.chnageCheckboxStatus(task.id, tdlId);
-    const updateTaskTitle = useCallback((newTitle: string) => props.updateTaskTitle(task.id, newTitle, tdlId),[task.id, tdlId]);
-    const removeTask = () => props.removeTask(task.id, tdlId);
+export const Task: React.FC<TaskPropsType> = ({task, tdlId, ...props}) => {
+    const dispatch = useDispatch();
+    const chnageCheckboxStatus = () => dispatch(changeTaskStatusAC(task.id, tdlId));
+    const updateTaskTitle = (newTitle: string) => dispatch(changeTaskTitleAC(task.id, newTitle, tdlId));
+    const removeTask = () => dispatch(removeTaskAC(task.id, tdlId));
 
     return (
         <StyledTask key={task.id} isdone={task.isdone.toString()}>
@@ -20,4 +23,4 @@ export const Task: React.FC<TaskPropsType> = memo(({task, tdlId, ...props}) => {
             </IconButton>
         </StyledTask>
     );
-});
+};

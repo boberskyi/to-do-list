@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {Task} from "./Task";
-import {action} from '@storybook/addon-actions';
 import {useState} from "react";
 import {TaskType} from "../TodolistTypes";
 
@@ -16,9 +15,7 @@ const meta = {
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {
-        removeTask: { action: 'Removed' },
-        updateTaskTitle: { action: 'Updated Title' },
-        chnageCheckboxStatus: { action: 'Changed Checkbox Status' }
+
     },
     args: {
         task: {id: 'string', title: 'Primary', isdone: false},
@@ -40,11 +37,7 @@ export const Checked: Story = {
 const WorkingTask = () => {
     const [task, setTask] = useState<TaskType>({id: 'string', title: 'Primary', isdone: false});
 
-    return <Task task={task}
-                 tdlId={'string'}
-                 removeTask={action(`Removed task id: ${task.id}`)}
-                 updateTaskTitle={(newTitle: string) => setTask({...task, id: 'newId', title: newTitle})}
-                 chnageCheckboxStatus={() => setTask({...task, isdone: !task.isdone})} />
+    return <Task task={task}  tdlId={'string'} />
 }
 export const Working: Story = {
     render: () => <WorkingTask />

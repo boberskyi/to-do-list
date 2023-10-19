@@ -2,8 +2,7 @@ import React, {ChangeEvent, memo, useState} from 'react';
 import TextField from '@mui/material/TextField';
 import {EditableTitleType} from "./EditableTitleTypes";
 
-export const EditableTitle:React.FC<EditableTitleType> = memo(({...props}) => {
-    console.log('Editable Title');
+export const EditableTitle:React.FC<EditableTitleType> = ({...props}) => {
 
     const [editableMod, setEditableMod] = useState<boolean>(false);
     const [newTitle, setNewTitle] = useState<string>(props.oldTitle)
@@ -32,4 +31,4 @@ export const EditableTitle:React.FC<EditableTitleType> = memo(({...props}) => {
 
         </div>
     );
-});
+};
