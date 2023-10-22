@@ -1,34 +1,46 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const settings = {
-    withCredentials: true,
+type TodolistType = {
+    id: string
+    addedDate: string
+    order: number
+    title: string
 }
+
+type ResponseType<T = {}> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: T
+}
+
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+    withCredentials: true,
+})
+
 
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
-        return axios.put(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`,
+        return instance.put<Array<ResponseType>>(
+            `todo-lists/${todolistId}`,
             { title: title },
-            settings
         )
     },
     deleteTodolist(todolistId: string) {
-        return axios.delete(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`,
-            settings
+        return instance.delete<Array<ResponseType>>(
+            `todo-lists/${todolistId}`
         )
     },
     createTodolist(title: string) {
-        return axios.post(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists`,
-            {title},
-            settings
+        return instance.post<Array<ResponseType<{item: TodolistType}>>>(
+            `todo-lists`,
+            {title}
         )
     },
     getTodolist() {
-        return axios.get(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists`,
-            settings
+        return instance.get<Array<ResponseType>>(
+            `todo-lists`
         )
     },
 }
