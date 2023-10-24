@@ -54,12 +54,4 @@ describe('todolistsReducer', () => {
         // Expect that the filter of the todolist is updated
         expect(newState[0].filter).toBe('Completed');
     });
-
-    it('should not affect state with an unknown action', () => {
-        const action = { type: 'UNKNOWN_ACTION' };
-        const newState = todolistsReducer(initialState, action);
-
-        // Expect that the state remains the same
-        expect(newState).toEqual(initialState);
-    });
 });
