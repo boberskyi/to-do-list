@@ -1,4 +1,4 @@
-import {TaskType} from "../TodolistTypes";
+import {TaskType} from "../../../todolist-api";
 
 export type TaskPropsType = {
     task: TaskType

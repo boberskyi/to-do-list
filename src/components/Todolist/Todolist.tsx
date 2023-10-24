@@ -9,17 +9,20 @@ import {EditableTitle} from "../EditableTitle/EditableTitle";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Task} from "./Task/Task";
 import FilterButtons from "./FilterButtons/FilterButtons";
+import {TaskStatuses} from "../../todolist-api";
 
 
 export const Todolist: React.FC<TodolistPropsType> = ({ tdl }) => {
     const {
-        tasks,
+        filteredTasks,
         activeBtn,
         onFilterClickHandler,
         addTask,
         removeTodolist,
         updateTdlTitle,
     } = useTodolist({ tdl });
+
+
 
     return (
         <Paper variant="outlined">
@@ -35,10 +38,10 @@ export const Todolist: React.FC<TodolistPropsType> = ({ tdl }) => {
 
                 <Paper variant="outlined">
                     <StyledTasksWrap>
-                        {tasks.length === 0 ? (
+                        {filteredTasks.length === 0 ? (
                             <div>No tasks</div>
                         ) : (
-                            tasks.map(t => <Task key={t.id} task={t} tdlId={tdl.id} />)
+                            filteredTasks.map(t => <Task key={t.id} task={t} tdlId={tdl.id} />)
                         )}
                     </StyledTasksWrap>
                 </Paper>

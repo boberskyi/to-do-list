@@ -1,67 +1,65 @@
-import {v1} from "uuid";
-import {TodolistType} from "../todolist-api";
+import {
+    addTodolistAC, changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
+    TodolistDomainType,
+    todolistsReducer
+} from "./todolists-reducer";
 
-export type ActionType = RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType;
+describe('todolistsReducer', () => {
+    let initialState:TodolistDomainType[];
 
-export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
-export type AddTodolistACType = ReturnType<typeof addTodolistAC>;
-type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>;
-type ChangeTodolistFilterACType = ReturnType<typeof changeTodolistFilterAC>;
+    beforeEach(() => {
+        // Set up the initial state before each test
+        initialState = [
+            {
+                id: 'todolistId1',
+                addedDate: '',
+                order: 0,
+                title: 'What to learn',
+                filter: 'All',
+            },
+        ];
+    });
 
-export type FilterValueType = 'All' | 'Completed' | 'Active';
-export type TodolistDomainType = TodolistType & {
-    filter: FilterValueType
-}
+    it('should handle REMOVE-TODOLIST action', () => {
+        const action = removeTodolistAC('todolistId1');
+        const newState = todolistsReducer(initialState, action);
 
-const initialState:TodolistDomainType[] = [{
-    id: 'todolistId1',
-    addedDate: '',
-    order: 0,
-    title: 'What to learn',
-    filter: 'All'
-}];
-export const todolistsReducer = (state = initialState, action: ActionType):TodolistDomainType[] => {
-    switch (action.type) {
-        case 'REMOVE-TODOLIST': {
-            return state.filter(tdl => tdl.id !== action.payload.tdlId);
-        }
-        case 'ADD-TODOLIST': {
-                return [...state, {id: action.payload.tdlId, addedDate: '', order: 0, title: action.payload.newTitle, filter: 'All'}];
-        }
-        case 'CHANGE-TODOLIST-TITLE': {
-            return state.map(tdl => tdl.id === action.payload.tdlId ? {...tdl, title: action.payload.newTitle} : tdl);
-        }
-        case 'CHANGE-TODOLIST-FILTER': {
-            return state.map(tdl => tdl.id === action.payload.tdlId ? {...tdl, filter: action.payload.filter} : tdl);
-        }
-        default: return state;
-    }
-}
+        expect(newState).toHaveLength(0);
+    });
 
-export const removeTodolistAC = (tdlId:string) => {
-    return {
-        type: 'REMOVE-TODOLIST',
-        payload: {tdlId}
-    } as const
-}
-export const addTodolistAC = (newTitle: string) => {
-    return {
-        type: 'ADD-TODOLIST',
-        payload: {newTitle, tdlId: v1()}
-    } as const
-}
-export const changeTodolistTitleAC = (tdlId: string, newTitle:string) => {
-    return {
-        type: 'CHANGE-TODOLIST-TITLE',
-        payload: {tdlId, newTitle}
-    } as const
-}
-export const changeTodolistFilterAC = (tdlId: string, filter:FilterValueType) => {
-    return {
-        type: 'CHANGE-TODOLIST-FILTER',
-        payload: {
-            tdlId,
-            filter
-        }
-    } as const
-}
+    it('should handle ADD-TODOLIST action', () => {
+        const action = addTodolistAC('New Todolist');
+        const newState = todolistsReducer(initialState, action);
+
+        // Expect that a new todolist is added to the state
+        expect(newState).toHaveLength(2);
+        expect(newState[1].title).toBe('New Todolist');
+        expect(newState[1].filter).toBe('All');
+    });
+
+    it('should handle CHANGE-TODOLIST-TITLE action', () => {
+        const action = changeTodolistTitleAC('todolistId1', 'Updated Title');
+        const newState = todolistsReducer(initialState, action);
+
+        // Expect that the title of the todolist is updated
+        expect(newState[0].title).toBe('Updated Title');
+    });
+
+    it('should handle CHANGE-TODOLIST-FILTER action', () => {
+        const action = changeTodolistFilterAC('todolistId1', 'Completed');
+        const newState = todolistsReducer(initialState, action);
+
+        // Expect that the filter of the todolist is updated
+        expect(newState[0].filter).toBe('Completed');
+    });
+
+    it('should not affect state with an unknown action', () => {
+        const action = { type: 'UNKNOWN_ACTION' };
+        const newState = todolistsReducer(initialState, action);
+
+        // Expect that the state remains the same
+        expect(newState).toEqual(initialState);
+    });
+});

@@ -6,13 +6,14 @@ import {TaskPropsType} from './TaskTypes';
 import {StyledTask} from './TaskStyles';
 import {useTask} from './useTask';
 import {EditableTitle} from '../../EditableTitle/EditableTitle';
+import {TaskStatuses} from "../../../todolist-api";
 
 export const Task: React.FC<TaskPropsType> = ({task, tdlId}) => {
     const {isDone, toggleTaskStatus, updateTaskTitle, removeTask} = useTask(task, tdlId);
 
     return (
-        <StyledTask key={task.id} isdone={isDone.toString()}>
-            <Checkbox checked={isDone} size="small" onChange={toggleTaskStatus}/>
+        <StyledTask key={task.id} isdone={(isDone === TaskStatuses.Completed).toString()}>
+            <Checkbox checked={isDone === TaskStatuses.Completed} size="small" onChange={toggleTaskStatus}/>
             <EditableTitle oldTitle={task.title} callback={updateTaskTitle}/>
             <IconButton onClick={removeTask} aria-label="delete" size="small">
                 <ClearIcon/>

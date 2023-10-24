@@ -1,10 +1,37 @@
 import axios from 'axios';
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     addedDate: string
     order: number
     title: string
+}
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
+}
+
+export type TaskType = {
+    addedDate: string
+    deadline: string
+    description: string
+    id: string
+    order: number
+    priority: TaskPriorities
+    startDate: string
+    status: TaskStatuses
+    title: string
+    todoListId: string
 }
 
 type ResponseType<T = {}> = {
@@ -24,7 +51,7 @@ export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
         return instance.put<Array<ResponseType>>(
             `todo-lists/${todolistId}`,
-            { title: title },
+            {title: title},
         )
     },
     deleteTodolist(todolistId: string) {
@@ -33,7 +60,7 @@ export const todolistAPI = {
         )
     },
     createTodolist(title: string) {
-        return instance.post<Array<ResponseType<{item: TodolistType}>>>(
+        return instance.post<Array<ResponseType<{ item: TodolistType }>>>(
             `todo-lists`,
             {title}
         )
@@ -49,18 +76,18 @@ export const todolistAPI = {
             {title}
         )
     },
-    getTasks(todolistId:string) {
+    getTasks(todolistId: string) {
         return instance.get<Array<ResponseType>>(
             `todo-lists/${todolistId}/tasks`
         )
     },
-    updateTask(todolistId: string, taskId:string, title: string) {
+    updateTask(todolistId: string, taskId: string, title: string) {
         return instance.put<Array<ResponseType>>(
             `todo-lists/${todolistId}/tasks/${taskId}`,
-            { title: title },
+            {title: title},
         )
     },
-    deleteTask(todolistId: string, taskId:string) {
+    deleteTask(todolistId: string, taskId: string) {
         return instance.delete<Array<ResponseType>>(
             `todo-lists/${todolistId}/tasks/${taskId}`
         )

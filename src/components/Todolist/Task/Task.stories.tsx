@@ -1,10 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 import {Task} from "./Task";
-import {useState} from "react";
-import {TaskType} from "../TodolistTypes";
 import {StoreProviderDecorator} from "../../../state/StoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../state/store";
+import {TaskPriorities, TaskStatuses, TaskType} from "../../../todolist-api";
 
 const meta = {
     title: 'Todolists/Task',
@@ -17,7 +16,18 @@ const meta = {
 
     },
     args: {
-        task: {id: 'string', title: 'Primary', isdone: false},
+        task: {
+            id: 'string',
+            title: 'Primary',
+            addedDate: '',
+            deadline: '',
+            description: '',
+            order: 0,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            status: TaskStatuses.New,
+            todoListId: 'id1'
+        },
         tdlId: 'Primary',
 
     },
@@ -28,14 +38,36 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const PrimaryTask = () => {
-    let task = {id: 'id1', title: 'Primary task', isdone: false};
+    let task = {
+        id: 'id1',
+        title: 'Primary task',
+        addedDate: '',
+        deadline: '',
+        description: '',
+        order: 0,
+        priority: TaskPriorities.Low,
+        startDate: '',
+        status: TaskStatuses.New,
+        todoListId: 'id1'
+    };
     return <Task task={task} tdlId={'todolistId1'} />
 }
 export const Primary: Story = {
     render: () => <PrimaryTask />
 };
 const CheckedTask = () => {
-    let task = {id: 'id1', title: 'Primary task', isdone: true};
+    let task = {
+        id: 'id1',
+        title: 'Primary task',
+        addedDate: '',
+        deadline: '',
+        description: '',
+        order: 0,
+        priority: TaskPriorities.Low,
+        startDate: '',
+        status: TaskStatuses.Completed,
+        todoListId: 'id1'
+    };
     return <Task task={task} tdlId={'todolistId1'} />
 }
 export const Checked: Story = {
@@ -43,7 +75,18 @@ export const Checked: Story = {
 };
 const WorkingTask = () => {
     let task = useSelector<AppRootStateType, TaskType>(state => state.tasks['todolistId1'][0])
-    if(!task) task = {id: 'id1', title: 'Tasks deleted', isdone: true}
+    if(!task) task = {
+        id: 'id1',
+        title: 'Tasks deleted',
+        addedDate: '',
+        deadline: '',
+        description: '',
+        order: 0,
+        priority: TaskPriorities.Low,
+        startDate: '',
+        status: TaskStatuses.New,
+        todoListId: 'id1'
+    }
     return <Task task={task} tdlId={'todolistId1'} />
 }
 export const Working: Story = {

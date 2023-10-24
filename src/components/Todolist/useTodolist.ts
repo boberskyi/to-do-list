@@ -1,15 +1,32 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from '../../state/store';
-import { changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC } from '../../state/todolists-reducer';
-import { addTaskAC } from '../../state/tasks-reducer';
-import { TaskType, TodolistPropsType } from './TodolistTypes';
-import {FilterValueType} from "../../AppTypes";
+import {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from '../../state/store';
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    FilterValueType,
+    removeTodolistAC
+} from '../../state/todolists-reducer';
+import {addTaskAC} from '../../state/tasks-reducer';
+import {TodolistPropsType} from './TodolistTypes';
+import {TaskStatuses, TaskType} from "../../todolist-api";
 
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
     const dispatch = useDispatch();
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[tdl.id]);
     const [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
+
+
+    const filteredTasks = tasks.filter((task) => {
+        if (activeBtn === 'Active') {
+            return task.status === TaskStatuses.New;
+        }
+        if (activeBtn === 'Completed') {
+            return task.status === TaskStatuses.Completed;
+        }
+        return true;
+    });
+
 
     const changeTodolistFilter = (id: string, value: FilterValueType) => {
         dispatch(changeTodolistFilterAC(id, value));
@@ -33,7 +50,7 @@ export const useTodolist = ({ tdl }: TodolistPropsType) => {
     };
 
     return {
-        tasks,
+        filteredTasks,
         activeBtn,
         onFilterClickHandler,
         addTask,

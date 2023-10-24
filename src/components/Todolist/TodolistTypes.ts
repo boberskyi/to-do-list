@@ -1,10 +1,10 @@
-import {TodolistsType} from "../../AppTypes";
+import {TodolistDomainType} from "../../state/todolists-reducer";
 
 export type TodolistPropsType = {
-    tdl: TodolistsType
+    tdl: TodolistDomainType
 }
-export type TaskType = {
-    id: string,
-    title: string,
-    isdone: boolean
-}
+// export type TaskType = {
+//     id: string,
+//     title: string,
+//     isdone: boolean
+// }
