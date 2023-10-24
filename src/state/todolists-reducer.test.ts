@@ -1,51 +1,67 @@
+import {v1} from "uuid";
+import {TodolistType} from "../todolist-api";
 
-import {
-    addTodolistAC,
-    changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC,
-    todolistsReducer
-} from './todolists-reducer'
-import { v1 } from 'uuid'
-import {FilterValueType, TodolistsType} from "../AppTypes";
+export type ActionType = RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType;
 
-let todolistId1:string;
-let todolistId2:string;
+export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
+export type AddTodolistACType = ReturnType<typeof addTodolistAC>;
+type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>;
+type ChangeTodolistFilterACType = ReturnType<typeof changeTodolistFilterAC>;
 
-let startState: TodolistsType[];
-beforeEach(() => {
-    todolistId1 = v1();
-    todolistId2 = v1();
+export type FilterValueType = 'All' | 'Completed' | 'Active';
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValueType
+}
 
-    startState = [
-        {id: todolistId1, title: 'What to learn', filter: 'All'},
-        {id: todolistId2, title: 'What to buy', filter: 'All'},
-    ];
-})
+const initialState:TodolistDomainType[] = [{
+    id: 'todolistId1',
+    addedDate: '',
+    order: 0,
+    title: 'What to learn',
+    filter: 'All'
+}];
+export const todolistsReducer = (state = initialState, action: ActionType):TodolistDomainType[] => {
+    switch (action.type) {
+        case 'REMOVE-TODOLIST': {
+            return state.filter(tdl => tdl.id !== action.payload.tdlId);
+        }
+        case 'ADD-TODOLIST': {
+                return [...state, {id: action.payload.tdlId, addedDate: '', order: 0, title: action.payload.newTitle, filter: 'All'}];
+        }
+        case 'CHANGE-TODOLIST-TITLE': {
+            return state.map(tdl => tdl.id === action.payload.tdlId ? {...tdl, title: action.payload.newTitle} : tdl);
+        }
+        case 'CHANGE-TODOLIST-FILTER': {
+            return state.map(tdl => tdl.id === action.payload.tdlId ? {...tdl, filter: action.payload.filter} : tdl);
+        }
+        default: return state;
+    }
+}
 
-test('correct Todolist should be removed', () => {
-    const endState = todolistsReducer(startState, removeTodolistAC(todolistId1));
-    expect(endState.length).toBe(1);
-    expect(endState[0].id).toBe(todolistId2);
-})
-test('correct Todolist should be added', () => {
-    let newTodolistTitle = 'New Todolist';
-    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle));
-
-    expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe(newTodolistTitle)
-})
-test('correct Todolist should change its name', () => {
-    let newTodolistTitle = 'New Todolist';
-    const endState = todolistsReducer(startState, changeTodolistTitleAC(todolistId2, newTodolistTitle));
-
-    expect(endState[0].title).toBe('What to learn');
-    expect(endState[1].title).toBe(newTodolistTitle);
-})
-test('correct filter of Todolist should be changed', () => {
-    let newFilter: FilterValueType = 'Completed';
-    const endState = todolistsReducer(startState, changeTodolistFilterAC(todolistId2,newFilter))    ;
-
-    expect(endState[0].filter).toBe('All')
-    expect(endState[1].filter).toBe(newFilter)
-})
+export const removeTodolistAC = (tdlId:string) => {
+    return {
+        type: 'REMOVE-TODOLIST',
+        payload: {tdlId}
+    } as const
+}
+export const addTodolistAC = (newTitle: string) => {
+    return {
+        type: 'ADD-TODOLIST',
+        payload: {newTitle, tdlId: v1()}
+    } as const
+}
+export const changeTodolistTitleAC = (tdlId: string, newTitle:string) => {
+    return {
+        type: 'CHANGE-TODOLIST-TITLE',
+        payload: {tdlId, newTitle}
+    } as const
+}
+export const changeTodolistFilterAC = (tdlId: string, filter:FilterValueType) => {
+    return {
+        type: 'CHANGE-TODOLIST-FILTER',
+        payload: {
+            tdlId,
+            filter
+        }
+    } as const
+}
