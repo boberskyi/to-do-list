@@ -1,4 +1,4 @@
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../state/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./tasks-reducer";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {TaskStatuses, TaskType} from "../../../todolist-api";

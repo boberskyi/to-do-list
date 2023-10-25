@@ -1,5 +1,5 @@
-import { tasksReducer } from './tasks-reducer'
-import { todolistsReducer } from './todolists-reducer'
+import { tasksReducer } from '../feautures/Todolists/Task/tasks-reducer'
+import { todolistsReducer } from '../feautures/Todolists/Todolist/todolists-reducer'
 import {combineReducers, legacy_createStore} from 'redux'
 
 const rootReducer = combineReducers({

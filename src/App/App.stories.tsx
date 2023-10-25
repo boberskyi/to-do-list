@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import App from "./App";
-import {StoreProviderDecorator} from "./state/StoreProviderDecorator";
+import {StoreProviderDecorator} from "./StoreProviderDecorator";
 
 const meta = {
     title: 'Todolists/App',

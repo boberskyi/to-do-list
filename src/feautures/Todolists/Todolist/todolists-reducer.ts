@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TodolistType} from "../todolist-api";
+import {TodolistType} from "../../../todolist-api";
 
 export type ActionType = RemoveTodolistACType | AddTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType;
 

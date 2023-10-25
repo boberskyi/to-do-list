@@ -1,4 +1,4 @@
-import {TodolistDomainType} from "../../state/todolists-reducer";
+import {TodolistDomainType} from "./todolists-reducer";
 
 export type TodolistPropsType = {
     tdl: TodolistDomainType

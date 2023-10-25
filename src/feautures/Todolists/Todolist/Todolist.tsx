@@ -5,11 +5,11 @@ import Paper from '@mui/material/Paper';
 import { StyledFilterWrap, StyledTasksWrap, StyledTodolist, StyledTodoListTitle } from './TodolistStyles';
 import { useTodolist } from './useTodolist';
 import {TodolistPropsType} from "./TodolistTypes";
-import {EditableTitle} from "../EditableTitle/EditableTitle";
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {Task} from "./Task/Task";
-import FilterButtons from "./FilterButtons/FilterButtons";
-import {TaskStatuses} from "../../todolist-api";
+import {EditableTitle} from "../../../components/EditableTitle/EditableTitle";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {Task} from "../Task/Task";
+import FilterButtons from "../FilterButtons/FilterButtons";
+import {TaskStatuses} from "../../../todolist-api";
 
 
 export const Todolist: React.FC<TodolistPropsType> = ({ tdl }) => {

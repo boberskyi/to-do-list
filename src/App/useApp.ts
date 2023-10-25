@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType} from "./store";
 import {
     addTodolistAC, TodolistDomainType,
-} from "./state/todolists-reducer";
+} from "../feautures/Todolists/Todolist/todolists-reducer";
 
 export const useApp = () => {
     const dispatch = useDispatch();

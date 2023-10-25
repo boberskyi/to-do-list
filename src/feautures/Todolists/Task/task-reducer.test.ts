@@ -1,5 +1,5 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer, TasksType} from './tasks-reducer';
-import {TaskPriorities, TaskStatuses} from "../todolist-api"; // replace with the actual path
+import {TaskPriorities, TaskStatuses} from "../../../todolist-api"; // replace with the actual path
 
 describe('tasksReducer', () => {
     let initialState: TasksType;

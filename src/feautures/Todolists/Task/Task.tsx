@@ -5,7 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import {TaskPropsType} from './TaskTypes';
 import {StyledTask} from './TaskStyles';
 import {useTask} from './useTask';
-import {EditableTitle} from '../../EditableTitle/EditableTitle';
+import {EditableTitle} from '../../../components/EditableTitle/EditableTitle';
 import {TaskStatuses} from "../../../todolist-api";
 
 export const Task: React.FC<TaskPropsType> = ({task, tdlId}) => {

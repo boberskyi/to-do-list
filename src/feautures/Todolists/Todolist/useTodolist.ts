@@ -1,15 +1,15 @@
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from '../../state/store';
+import {AppRootStateType} from '../../../App/store';
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     FilterValueType,
     removeTodolistAC
-} from '../../state/todolists-reducer';
-import {addTaskAC} from '../../state/tasks-reducer';
+} from './todolists-reducer';
+import {addTaskAC} from '../Task/tasks-reducer';
 import {TodolistPropsType} from './TodolistTypes';
-import {TaskStatuses, TaskType} from "../../todolist-api";
+import {TaskStatuses, TaskType} from "../../../todolist-api";
 
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
     const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import {FilterValueType} from "../../../state/todolists-reducer";
+import {FilterValueType} from "../Todolist/todolists-reducer";
 
 export type FilterButtonsProps = {
     activeBtn: FilterValueType;
