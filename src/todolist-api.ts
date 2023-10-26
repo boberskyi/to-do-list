@@ -66,7 +66,7 @@ export const todolistAPI = {
         )
     },
     getTodolist() {
-        return instance.get<Array<ResponseType>>(
+        return instance.get<Array<TodolistType>>(
             `todo-lists`
         )
     },

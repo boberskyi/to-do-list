@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from '../../../App/store';
+import {AppRootStateType, useAppSelector} from '../../../App/store';
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -13,9 +13,8 @@ import {TaskStatuses, TaskType} from "../../../todolist-api";
 
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
     const dispatch = useDispatch();
-    const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[tdl.id]);
+    const tasks = useAppSelector<TaskType[]>(state => state.tasks[tdl.id]);
     const [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
-
 
     const filteredTasks = tasks.filter((task) => {
         if (activeBtn === 'Active') {
