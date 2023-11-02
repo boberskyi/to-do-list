@@ -1,6 +1,7 @@
 import {useAppDispatch, useAppSelector} from "./store";
 import {
-    addTodolistAC, setTodolistTC, TodolistDomainType
+    createTodolistTC,
+    setTodolistTC, TodolistDomainType
 } from "../feautures/Todolists/Todolist/todolists-reducer";
 import {useEffect} from "react";
 
@@ -13,8 +14,7 @@ export const useApp = () => {
         dispatch(setTodolistTC)
     }, []);
     const addTodolist = (newTitle: string) => {
-        let action = addTodolistAC(newTitle);
-        dispatch(action);
+        dispatch(createTodolistTC(newTitle));
     };
 
     return {

@@ -9,7 +9,6 @@ import {EditableTitle} from "../../../components/EditableTitle/EditableTitle";
 import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {Task} from "../Task/Task";
 import FilterButtons from "../FilterButtons/FilterButtons";
-import {TaskStatuses} from "../../../todolist-api";
 
 
 export const Todolist: React.FC<TodolistPropsType> = ({ tdl }) => {

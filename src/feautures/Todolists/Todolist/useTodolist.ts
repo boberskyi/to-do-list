@@ -1,19 +1,24 @@
-import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType, useAppSelector} from '../../../App/store';
+import {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../../App/store';
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     FilterValueType,
-    removeTodolistAC
+    removeTodolistAC, removeTodolistTC, updateTdlTitleTC
 } from './todolists-reducer';
-import {addTaskAC} from '../Task/tasks-reducer';
+import {addTaskAC, addTaskTC, setTasksTC} from '../Task/tasks-reducer';
 import {TodolistPropsType} from './TodolistTypes';
 import {TaskStatuses, TaskType} from "../../../todolist-api";
 
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(setTasksTC(tdl.id));
+    }, []);
+
     const tasks = useAppSelector<TaskType[]>(state => state.tasks[tdl.id]);
+
     const [activeBtn, setActiveBtn] = useState<FilterValueType>('All');
 
     const filteredTasks = tasks.filter((task) => {
@@ -37,15 +42,15 @@ export const useTodolist = ({ tdl }: TodolistPropsType) => {
     };
 
     const addTask = (newTitle: string) => {
-        dispatch(addTaskAC(newTitle, tdl.id));
+        dispatch(addTaskTC(tdl.id, newTitle));
     };
 
     const removeTodolist = () => {
-        dispatch(removeTodolistAC(tdl.id));
+        dispatch(removeTodolistTC(tdl.id));
     };
 
     const updateTdlTitle = (newTitle: string) => {
-        dispatch(changeTodolistTitleAC(tdl.id, newTitle));
+        dispatch(updateTdlTitleTC(tdl.id, newTitle));
     };
 
     return {

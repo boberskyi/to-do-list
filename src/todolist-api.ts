@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
+import {TasksType, UpdateDomainTaskModelType} from "./feautures/Todolists/Task/tasks-reducer";
 
 export type TodolistType = {
     id: string
@@ -41,6 +42,15 @@ type ResponseType<T = {}> = {
     data: T
 }
 
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+}
+
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
@@ -60,7 +70,7 @@ export const todolistAPI = {
         )
     },
     createTodolist(title: string) {
-        return instance.post<Array<ResponseType<{ item: TodolistType }>>>(
+        return instance.post<ResponseType<{ item: TodolistType }>, AxiosResponse<ResponseType<{ item: TodolistType }>>, {title: string}>(
             `todo-lists`,
             {title}
         )
@@ -71,20 +81,21 @@ export const todolistAPI = {
         )
     },
     createTasks(todolistId: string, title: string) {
-        return instance.post<Array<ResponseType>>(
+        console.log(todolistId, title);
+        return instance.post<ResponseType<{item: TaskType}>, AxiosResponse<ResponseType<{ item: TaskType }>>, {title: string}>(
             `todo-lists/${todolistId}/tasks`,
             {title}
         )
     },
     getTasks(todolistId: string) {
-        return instance.get<Array<ResponseType>>(
+        return instance.get<TasksType>(
             `todo-lists/${todolistId}/tasks`
         )
     },
-    updateTask(todolistId: string, taskId: string, title: string) {
-        return instance.put<Array<ResponseType>>(
+    updateTask(todolistId: string, taskId: string, apiModel:UpdateTaskModelType) {
+        return instance.put<ResponseType<{item: TaskType}>, AxiosResponse<ResponseType<{ item: TaskType }>>, UpdateTaskModelType>(
             `todo-lists/${todolistId}/tasks/${taskId}`,
-            {title: title},
+            {...apiModel}
         )
     },
     deleteTask(todolistId: string, taskId: string) {

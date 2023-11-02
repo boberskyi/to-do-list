@@ -73,19 +73,19 @@ export const GetTasks = () => {
     }, [])
     return <div>{JSON.stringify(state)}</div>
 }
-export const UpdateTaskTitle = () => {
-    const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const todolistId = '15818667-f054-4ad5-bca4-82a601beabd4';
-        const taskId = 'a795ef32-68a5-4b33-a05a-13efc6dbbd39';
-        const newTitle = 'T I TL E!!!';
-
-        todolistAPI.updateTask(todolistId, taskId, newTitle)
-            .then(res => setState(res.data))
-    }, [])
-
-    return <div>{JSON.stringify(state)}</div>
-}
+// export const UpdateTaskTitle = () => {
+//     const [state, setState] = useState<any>(null)
+//     useEffect(() => {
+//         const todolistId = '15818667-f054-4ad5-bca4-82a601beabd4';
+//         const taskId = 'a795ef32-68a5-4b33-a05a-13efc6dbbd39';
+//         const newTitle = 'T I TL E!!!';
+//
+//         todolistAPI.updateTask(todolistId, taskId, newTitle)
+//             .then(res => setState(res.data))
+//     }, [])
+//
+//     return <div>{JSON.stringify(state)}</div>
+// }
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {

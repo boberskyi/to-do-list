@@ -1,24 +1,24 @@
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./tasks-reducer";
-import {useDispatch} from "react-redux";
+import {removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {useState} from "react";
 import {TaskStatuses, TaskType} from "../../../todolist-api";
+import {useAppDispatch} from "../../../App/store";
 
 export const useTask = (task: TaskType, tdlId: string) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [isDone, setIsDone] = useState<TaskStatuses>(task.status);
 
     const toggleTaskStatus = () => {
         const newStatus = isDone === TaskStatuses.New ? TaskStatuses.Completed : TaskStatuses.New;
         setIsDone(newStatus);
-        dispatch(changeTaskStatusAC(task.id, tdlId, newStatus));
+        dispatch(updateTaskTC(tdlId, task.id, {status: newStatus}));
     };
 
     const updateTaskTitle = (newTitle: string) => {
-        dispatch(changeTaskTitleAC(task.id, newTitle, tdlId));
+        dispatch(updateTaskTC(tdlId, task.id, {title: newTitle}));
     };
 
     const removeTask = () => {
-        dispatch(removeTaskAC(task.id, tdlId));
+        dispatch(removeTaskTC(task.id, tdlId));
     };
 
     return {
