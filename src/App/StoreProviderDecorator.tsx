@@ -6,13 +6,18 @@
     import {todolistsReducer} from "../feautures/Todolists/Todolist/todolists-reducer";
     import {v1} from "uuid";
     import {TaskPriorities, TaskStatuses} from "../todolist-api";
+    import {appReducer} from "./app-reducer";
 
     const rootReducer = combineReducers({
+        app: appReducer,
         tasks: tasksReducer,
         todolists: todolistsReducer
     })
 
     const initialGlobalState = {
+        app: {
+            status: 'loading'
+        },
         todolists: [
             {
                 id: "todolistId1",
