@@ -5,6 +5,7 @@ import {
     TodolistDomainType,
     todolistsReducer
 } from "./todolists-reducer";
+import {RequestStatusType} from "../../../App/app-reducer";
 
 describe('todolistsReducer', () => {
     let initialState:TodolistDomainType[];
@@ -18,6 +19,7 @@ describe('todolistsReducer', () => {
                 order: 0,
                 title: 'What to learn',
                 filter: 'All',
+                entityStatus: 'idle'
             },
         ];
     });

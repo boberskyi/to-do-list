@@ -28,12 +28,12 @@ export const Todolist: React.FC<TodolistPropsType> = ({ tdl }) => {
             <StyledTodolist>
                 <StyledTodoListTitle>
                     <EditableTitle oldTitle={tdl.title} callback={updateTdlTitle} />
-                    <IconButton onClick={removeTodolist} aria-label="delete" size="small">
+                    <IconButton onClick={removeTodolist} aria-label="delete" size="small" disabled={tdl.entityStatus === 'loading'}>
                         <ClearIcon />
                     </IconButton>
                 </StyledTodoListTitle>
 
-                <AddItemForm callback={addTask} />
+                <AddItemForm callback={addTask} disabled={tdl.entityStatus === 'loading'} />
 
                 <Paper variant="outlined">
                     <StyledTasksWrap>

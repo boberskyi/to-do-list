@@ -1,19 +1,21 @@
 import {todolistAPI, TodolistType} from "../../../todolist-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunk} from "../../../App/store";
-import {setStatusAC, setStatusACType} from "../../../App/app-reducer";
+import {RequestStatusType, setErrorAC, setErrorACType, setStatusAC, setStatusACType} from "../../../App/app-reducer";
 
-export type TodolistsActionType = RemoveTodolistACType | CreateTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType | SetTodolistACType | setStatusACType;
+export type TodolistsActionType = RemoveTodolistACType | CreateTodolistACType | ChangeTodolistTitleACType | ChangeTodolistFilterACType | SetTodolistACType | setStatusACType | setErrorACType | ChangeTodolistEntityStatusACType;
 
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
 export type CreateTodolistACType = ReturnType<typeof createTodolistAC>;
 type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>;
 type ChangeTodolistFilterACType = ReturnType<typeof changeTodolistFilterAC>;
 export type SetTodolistACType = ReturnType<typeof setTodolistAC>;
+export type ChangeTodolistEntityStatusACType = ReturnType<typeof changeTodolistEntityStatusAC>;
 
 export type FilterValueType = 'All' | 'Completed' | 'Active';
 export type TodolistDomainType = TodolistType & {
-    filter: FilterValueType
+    filter: FilterValueType,
+    entityStatus: RequestStatusType
 }
 
 const initialState:TodolistDomainType[] = [];
@@ -25,7 +27,7 @@ export const todolistsReducer = (state = initialState, action: TodolistsActionTy
         case 'ADD-TODOLIST': {
                 return [
                     ...state,
-                    {...action.payload.todolist, filter: 'All'}
+                    {...action.payload.todolist, filter: 'All', entityStatus: 'idle'}
                     ];
         }
         case 'CHANGE-TODOLIST-TITLE': {
@@ -35,7 +37,10 @@ export const todolistsReducer = (state = initialState, action: TodolistsActionTy
             return state.map(tdl => tdl.id === action.payload.tdlId ? {...tdl, filter: action.payload.filter} : tdl);
         }
         case "SET-TODOLIST": {
-            return action.payload.todolists.map(tl => ({...tl, filter: 'All'}));
+            return action.payload.todolists.map(tl => ({...tl, filter: 'All', entityStatus: 'idle'}));
+        }
+        case "CHANGE-TODOLIST-ENTITY-STATUS": {
+            return state.map(tdl => tdl.id === action.payload.tdlId ? {...tdl, entityStatus: action.payload.status}: tdl)
         }
         default: return state;
     }
@@ -78,6 +83,16 @@ export const setTodolistAC = (todolists: TodolistType[]) => {
     } as const;
 }
 
+export const changeTodolistEntityStatusAC = (tdlId:string, status:RequestStatusType) => {
+    return {
+        type: 'CHANGE-TODOLIST-ENTITY-STATUS',
+        payload: {
+            tdlId,
+            status
+        }
+    } as const
+}
+
 export const setTodolistTC = (dispatch:Dispatch<AppActionsType>) => {
     todolistAPI.getTodolist()
         .then(res => {
@@ -89,6 +104,7 @@ export const setTodolistTC = (dispatch:Dispatch<AppActionsType>) => {
 export const removeTodolistTC = (todolistId:string):AppThunk => {
     return (dispatch) => {
         dispatch(setStatusAC('loading'));
+        dispatch(changeTodolistEntityStatusAC(todolistId,'loading'));
         todolistAPI.deleteTodolist(todolistId)
             .then(res => {
                 dispatch(removeTodolistAC(todolistId))
@@ -113,8 +129,18 @@ export const createTodolistTC = (newTitle: string):AppThunk => {
         dispatch(setStatusAC('loading'));
         todolistAPI.createTodolist(newTitle)
             .then(res => {
-                dispatch(createTodolistAC(res.data.data.item))
-                dispatch(setStatusAC('succeeded'));
+                if(res.data.resultCode === 0) {
+                    dispatch(createTodolistAC(res.data.data.item))
+                    dispatch(setStatusAC('succeeded'));
+                } else {
+                    if(res.data.messages.length) {
+                        dispatch(setErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setErrorAC('Error'))
+                    }
+                    dispatch(setStatusAC('succeeded'));
+                }
+
             })
     }
 }

@@ -6,7 +6,7 @@ import {StyledAddForm} from "./AddItemFormStyles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-export const AddItemForm: React.FC<AddItemFormType> = ({ callback }) => {
+export const AddItemForm: React.FC<AddItemFormType> = ({ callback, disabled }) => {
     const { inputValue, inputError, setInputValue, addTaskAndResetTitle, onTitleKeyDownHandler, onAddTitleClickHandler } =
         useAddItemForm(callback);
 
@@ -21,12 +21,13 @@ export const AddItemForm: React.FC<AddItemFormType> = ({ callback }) => {
                     size={'small'}
                     error={inputError !== ''}
                     variant="outlined"
+                    disabled={disabled}
                 />
 
                 <Button
                     variant="outlined"
                     size="large"
-                    disabled={inputValue === ''}
+                    disabled={inputValue === '' || disabled}
                     onClick={onAddTitleClickHandler}
                     endIcon={<AddCircleOutlineIcon />}
                 >

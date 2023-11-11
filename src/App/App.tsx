@@ -7,6 +7,7 @@ import { Todolist } from '../feautures/Todolists/Todolist/Todolist';
 import LinearProgress from '@mui/material/LinearProgress';
 import {useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 
 const App = () => {
     const {todolists, addTodolist} = useApp();
@@ -14,6 +15,7 @@ const App = () => {
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             {status === 'loading' && <LinearProgress color="primary" />}
 
             <StyledAppWrapper>

@@ -6,7 +6,7 @@
     import {todolistsReducer} from "../feautures/Todolists/Todolist/todolists-reducer";
     import {v1} from "uuid";
     import {TaskPriorities, TaskStatuses} from "../todolist-api";
-    import {appReducer} from "./app-reducer";
+    import {appReducer, RequestStatusType} from "./app-reducer";
 
     const rootReducer = combineReducers({
         app: appReducer,
@@ -16,6 +16,7 @@
 
     const initialGlobalState = {
         app: {
+            error: 'Default error',
             status: 'loading'
         },
         todolists: [
@@ -23,6 +24,7 @@
                 id: "todolistId1",
                 title: "What to learn",
                 filter: "all",
+                entityStatus: 'idle',
                 addedDate: '',
                 order: 0,
             },
