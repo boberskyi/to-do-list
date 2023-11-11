@@ -1,11 +1,12 @@
 import {
+    changeTodolistEntityStatusAC,
     CreateTodolistACType,
     RemoveTodolistACType,
     SetTodolistACType
 } from "../Todolist/todolists-reducer";
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../../../todolist-api";
 import {AppRootStateType, AppThunk} from "../../../App/store";
-import {setErrorAC, setErrorACType, setStatusAC} from "../../../App/app-reducer";
+import {setAppErrorAC, setErrorACType, setStatusAC} from "../../../App/app-reducer";
 
 export type TasksActionType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
@@ -127,7 +128,11 @@ export const setTasksTC = (tdlId: string):AppThunk => {
             .then(res => {
                 dispatch(setTasksAC(tdlId, res.data.items));
                 dispatch(setStatusAC('succeeded'));
-            })
+            }).catch(e => {
+            dispatch(setAppErrorAC(e.message));
+            dispatch(changeTodolistEntityStatusAC(tdlId, 'idle'));
+            dispatch(setStatusAC('succeeded'));
+        })
     }
 }
 export const removeTaskTC = (taskId: string, tdlId: string):AppThunk => {
@@ -137,7 +142,11 @@ export const removeTaskTC = (taskId: string, tdlId: string):AppThunk => {
             .then(res => {
                 dispatch(removeTaskAC(taskId, tdlId))
                 dispatch(setStatusAC('succeeded'));
-            })
+            }).catch(e => {
+            dispatch(setAppErrorAC(e.message));
+            dispatch(changeTodolistEntityStatusAC(tdlId, 'idle'));
+            dispatch(setStatusAC('succeeded'));
+        })
     }
 }
 export const addTaskTC = (tdlId: string, title: string):AppThunk => {
@@ -150,13 +159,17 @@ export const addTaskTC = (tdlId: string, title: string):AppThunk => {
                     dispatch(setStatusAC('succeeded'));
                 } else {
                     if (res.data.messages.length){
-                        dispatch(setErrorAC(res.data.messages[0]));
+                        dispatch(setAppErrorAC(res.data.messages[0]));
                     } else {
-                        dispatch(setErrorAC('Error'));
+                        dispatch(setAppErrorAC('Error'));
                     }
                     dispatch(setStatusAC('succeeded'));
                 }
-            })
+            }).catch(e => {
+            dispatch(setAppErrorAC(e.message));
+            dispatch(changeTodolistEntityStatusAC(tdlId, 'idle'));
+            dispatch(setStatusAC('succeeded'));
+        })
     }
 }
 export const updateTaskTC = (tdlId: string, taskId: string, domainModel:UpdateDomainTaskModelType):AppThunk =>
@@ -180,7 +193,11 @@ export const updateTaskTC = (tdlId: string, taskId: string, domainModel:UpdateDo
                 .then(res => {
                     dispatch(updateTaskAC(tdlId, taskId, domainModel))
                     dispatch(setStatusAC('succeeded'));
-                })
+                }).catch(e => {
+                dispatch(setAppErrorAC(e.message));
+                dispatch(changeTodolistEntityStatusAC(tdlId, 'idle'));
+                dispatch(setStatusAC('succeeded'));
+            })
         }
     }
 }
