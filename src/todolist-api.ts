@@ -35,7 +35,7 @@ export type TaskType = {
     todoListId: string
 }
 
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
