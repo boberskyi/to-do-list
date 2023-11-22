@@ -183,7 +183,7 @@ export const updateTaskTC = (tdlId: string, taskId: string, domainModel:UpdateDo
             todolistAPI.updateTask(tdlId, taskId, apiModel)
                 .then(res => {
                     dispatch(updateTaskAC(tdlId, taskId, domainModel))
-                    dispatch(setAppStatusAC('failed'));
+                    dispatch(setAppStatusAC('succeeded'));
                 }).catch(e => handleServerNetworkError(dispatch, e))
         }
     }

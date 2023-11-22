@@ -1,13 +1,22 @@
 import {removeTaskTC, updateTaskTC} from "./tasks-reducer";
 import {useState} from "react";
 import {TaskStatuses, TaskType} from "../../../todolist-api";
-import {useAppDispatch} from "../../../App/store";
+import {useAppDispatch, useAppSelector} from "../../../App/store";
+import {TodolistDomainType} from "../Todolist/todolists-reducer";
 
 export const useTask = (task: TaskType, tdlId: string) => {
     const dispatch = useAppDispatch();
+    const todolist = useAppSelector<TodolistDomainType | void>(state => {
+        state.todolists.find(tdl => tdl.id === tdlId)
+    })
+
+
     const [isDone, setIsDone] = useState<TaskStatuses>(task.status);
 
     const toggleTaskStatus = () => {
+        // if(todolist) {
+        //     todolist.entityStatus === 'loading'
+        // }
         const newStatus = isDone === TaskStatuses.New ? TaskStatuses.Completed : TaskStatuses.New;
         setIsDone(newStatus);
         dispatch(updateTaskTC(tdlId, task.id, {status: newStatus}));
@@ -25,6 +34,7 @@ export const useTask = (task: TaskType, tdlId: string) => {
         toggleTaskStatus,
         updateTaskTitle,
         removeTask,
-        isDone
+        isDone,
+        todolist
     };
 };

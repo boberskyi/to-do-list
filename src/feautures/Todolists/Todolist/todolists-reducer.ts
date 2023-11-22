@@ -1,7 +1,7 @@
 import {todolistAPI, TodolistType} from "../../../todolist-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunk} from "../../../App/store";
-import {RequestStatusType, setAppErrorAC, SetAppErrorACType, setAppStatusAC, SetAppStatusACType} from "../../../App/app-reducer";
+import {RequestStatusType, SetAppErrorACType, setAppStatusAC, SetAppStatusACType} from "../../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
 
 export type TodolistsActionType =
