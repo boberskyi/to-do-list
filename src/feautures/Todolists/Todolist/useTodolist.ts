@@ -13,9 +13,9 @@ import {TaskStatuses, TaskType} from "../../../todolist-api";
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(setTasksTC(tdl.id));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(setTasksTC(tdl.id));
+    // }, []);
 
     const tasks = useAppSelector<TaskType[]>(state => state.tasks[tdl.id]);
 

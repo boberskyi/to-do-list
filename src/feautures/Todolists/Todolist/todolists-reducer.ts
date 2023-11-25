@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {AppActionsType, AppThunk} from "../../../App/store";
 import {RequestStatusType, SetAppErrorACType, setAppStatusAC, SetAppStatusACType} from "../../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
+import {setTasksTC} from "../Task/tasks-reducer";
 
 export type TodolistsActionType =
     RemoveTodolistACType
@@ -12,7 +13,8 @@ export type TodolistsActionType =
     | SetTodolistACType
     | SetAppStatusACType
     | SetAppErrorACType
-    | ChangeTodolistEntityStatusACType;
+    | ChangeTodolistEntityStatusACType
+    | ClearTodosDataACType;
 
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
 export type CreateTodolistACType = ReturnType<typeof createTodolistAC>;
@@ -20,6 +22,7 @@ type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>;
 type ChangeTodolistFilterACType = ReturnType<typeof changeTodolistFilterAC>;
 export type SetTodolistACType = ReturnType<typeof setTodolistAC>;
 export type ChangeTodolistEntityStatusACType = ReturnType<typeof changeTodolistEntityStatusAC>;
+export type ClearTodosDataACType = ReturnType<typeof clearTodosDataAC>;
 
 export type FilterValueType = 'All' | 'Completed' | 'Active';
 export type TodolistDomainType = TodolistType & {
@@ -53,6 +56,9 @@ export const todolistsReducer = (state = initialState, action: TodolistsActionTy
                 ...tdl,
                 entityStatus: action.payload.status
             } : tdl)
+        }
+        case 'CLEAR-DATA': {
+            return [];
         }
         default:
             return state;
@@ -106,11 +112,23 @@ export const changeTodolistEntityStatusAC = (tdlId: string, status: RequestStatu
     } as const
 }
 
-export const setTodolistTC = (dispatch: Dispatch<AppActionsType>) => {
+export const clearTodosDataAC = () => {
+    return {
+        type: 'CLEAR-DATA' as const
+    }
+}
+
+export const setTodolistTC = (dispatch: any) => {
     todolistAPI.getTodolist()
         .then(res => {
             dispatch(setTodolistAC(res.data));
             dispatch(setAppStatusAC('succeeded'));
+            return res.data;
+        })
+        .then((todos) => {
+            todos.forEach(tl => {
+                dispatch(setTasksTC(tl.id))
+            })
         })
 }
 
@@ -152,3 +170,4 @@ export const createTodolistTC = (newTitle: string): AppThunk => {
             }).catch(e => handleServerNetworkError(dispatch, e))
     }
 }
+

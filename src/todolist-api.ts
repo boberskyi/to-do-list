@@ -50,12 +50,34 @@ export type UpdateTaskModelType = {
     startDate: string
     deadline: string
 }
+export type AuthDataType = {
+    email: string,
+    password: string,
+    rememberMe?: boolean,
+    captcha?: boolean
+}
+export type UserType = {
+    id: number,
+    email: string,
+    login: string
+}
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
 })
 
+export const authAPI = {
+    me() {
+        return instance.get<ResponseType<UserType>>('/auth/me')
+    },
+    login(data:AuthDataType) {
+        return instance.post<ResponseType<{userId: number}>, AxiosResponse<ResponseType<{ userId: number }>>, AuthDataType>('/auth/login', data)
+    },
+    logout(){
+        return instance.delete<ResponseType>('/auth/login');
+    }
+}
 
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {

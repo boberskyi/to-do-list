@@ -1,5 +1,5 @@
 import {
-    changeTodolistEntityStatusAC,
+    changeTodolistEntityStatusAC, ClearTodosDataACType,
     CreateTodolistACType,
     RemoveTodolistACType,
     SetTodolistACType
@@ -23,6 +23,7 @@ export type TasksActionType = ReturnType<typeof removeTaskAC>
     | SetTodolistACType
     | CreateTodolistACType
     | SetAppErrorACType
+    | ClearTodosDataACType
     | setTasksACType;
 
 export type setTasksACType = ReturnType<typeof setTasksAC>;
@@ -86,6 +87,9 @@ export const tasksReducer = (state = initialState, action: TasksActionType): Tas
                         ...action.payload.domainModel
                     } : task)
             }
+        }
+        case 'CLEAR-DATA': {
+            return {};
         }
         default:
             return state;
