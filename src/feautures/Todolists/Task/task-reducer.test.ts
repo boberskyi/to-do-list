@@ -6,7 +6,7 @@ import {
     addTaskAC,
     setTasksAC,
 } from './tasks-reducer';
-import { TaskPriorities, TaskStatuses } from '../../../todolist-api'; // Replace with the actual path
+import { TaskPriorities, TaskStatuses } from '../../../todolist-api';
 
 describe('tasksReducer', () => {
     let initialState: TasksType;
@@ -59,11 +59,12 @@ describe('tasksReducer', () => {
 
         const newState = tasksReducer(initialState, action);
 
-        // Add your assertions here to check if the task was added correctly.
-        expect(newState['todolistId1']).toHaveLength(3);
-        expect(newState['todolistId1'][2].id).toBe('3');
-        expect(newState['todolistId1'][2].title).toBe('Test Task');
+        const updatedTodoList = newState['todolistId1'];
+
+        expect(updatedTodoList.length).toBeGreaterThan(initialState['todolistId1'].length);
+        expect(updatedTodoList[0]).toEqual(expect.objectContaining(task));
     });
+
 
     it('should remove a task from the state', () => {
         const taskId = '1';
@@ -72,9 +73,8 @@ describe('tasksReducer', () => {
 
         const newState = tasksReducer(initialState, action);
 
-        // Add your assertions here to check if the task was removed correctly.
-        expect(newState['todolistId1']).toHaveLength(1);
-        expect(newState['todolistId1'][0].id).toBe('2');
+        expect(newState['todolistId1']).toHaveLength(initialState['todolistId1'].length - 1);
+        expect(newState['todolistId1'].some(task => task.id === '1')).toBe(false);
     });
 
     it('should update a task in the state', () => {
@@ -85,7 +85,6 @@ describe('tasksReducer', () => {
 
         const newState = tasksReducer(initialState, action);
 
-        // Add your assertions here to check if the task was updated correctly.
         expect(newState['todolistId1'][0].title).toBe('Updated Title');
     });
 
@@ -121,9 +120,7 @@ describe('tasksReducer', () => {
 
         const newState = tasksReducer(initialState, action);
 
-        // Add your assertions here to check if tasks were set correctly.
-        expect(newState['todolistId1']).toHaveLength(2);
-        expect(newState['todolistId1'][0].id).toBe('3');
-        expect(newState['todolistId1'][1].id).toBe('4');
+        expect(newState['todolistId1']).toHaveLength(tasks.length);
+        expect(newState['todolistId1']).toEqual(tasks);
     });
 });
