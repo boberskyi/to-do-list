@@ -11,7 +11,7 @@ export type SetAppErrorACType = ReturnType<typeof setAppErrorAC>;
 export type setIsInitializedACType = ReturnType<typeof setIsInitializedAC>;
 
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type AppActionsType = SetAppStatusACType | SetAppErrorACType | setIsInitializedACType;
 
 

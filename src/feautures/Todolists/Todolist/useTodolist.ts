@@ -1,21 +1,17 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../../App/store';
 import {
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
     FilterValueType,
-    removeTodolistAC, removeTodolistTC, updateTdlTitleTC
+    removeTodolistTC,
+    updateTdlTitleTC
 } from './todolists-reducer';
-import {addTaskAC, addTaskTC, setTasksTC} from '../Task/tasks-reducer';
+import {addTaskTC} from '../Task/tasks-reducer';
 import {TodolistPropsType} from './TodolistTypes';
 import {TaskStatuses, TaskType} from "../../../todolist-api";
 
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
     const dispatch = useAppDispatch();
-
-    // useEffect(() => {
-    //     dispatch(setTasksTC(tdl.id));
-    // }, []);
 
     const tasks = useAppSelector<TaskType[]>(state => state.tasks[tdl.id]);
 

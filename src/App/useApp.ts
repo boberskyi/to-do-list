@@ -3,8 +3,7 @@ import {
     createTodolistTC,
     setTodolistTC, TodolistDomainType
 } from "../feautures/Todolists/Todolist/todolists-reducer";
-import React, {useEffect} from "react";
-import {Navigate} from "react-router-dom";
+import {useEffect} from "react";
 
 export const useApp = () => {
     const dispatch = useAppDispatch();
