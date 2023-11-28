@@ -5,4 +5,4 @@ export const StyledAppWrapper = styled.div`
   gap: 20px;
   padding: 30px;
   align-items: flex-start;
-`
+`;

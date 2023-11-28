@@ -1,5 +1,5 @@
 export type EditableTitleType = {
-    oldTitle: string,
-    callback: (newTitle:string) => void,
-    disabled?: boolean
-}
+  oldTitle: string;
+  callback: (newTitle: string) => void;
+  disabled?: boolean;
+};

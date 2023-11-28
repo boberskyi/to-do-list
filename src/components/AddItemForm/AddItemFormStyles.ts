@@ -5,4 +5,4 @@ export const StyledAddForm = styled.div`
   align-items: center;
   gap: 10px;
   padding: 10px;
-`
+`;

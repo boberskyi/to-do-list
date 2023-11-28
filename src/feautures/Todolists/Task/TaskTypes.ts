@@ -1,6 +1,6 @@
-import {TaskType} from "../../../todolist-api";
+import { TaskType } from "../../../todolist-api";
 
 export type TaskPropsType = {
-    task: TaskType
-    tdlId: string
-}
+  task: TaskType;
+  tdlId: string;
+};
