@@ -1,13 +1,7 @@
-import {
-  appReducer,
-  InitialStateType,
-  setAppErrorAC,
-  setAppStatusAC,
-  setIsInitializedAC,
-} from "./app-reducer";
+import { appActions, AppInitialStateType, appReducer } from "./app-reducer";
 
 describe("appReducer", () => {
-  let initialState: InitialStateType;
+  let initialState: AppInitialStateType;
 
   beforeEach(() => {
     initialState = {
@@ -18,7 +12,7 @@ describe("appReducer", () => {
   });
 
   it("should handle APP/SET-STATUS action", () => {
-    const action = setAppStatusAC("succeeded");
+    const action = appActions.setStatus({ status: "succeeded" });
     const newState = appReducer(initialState, action);
 
     expect(newState.status).toEqual("succeeded");
@@ -27,7 +21,7 @@ describe("appReducer", () => {
   });
 
   it("should handle APP/SET-ERROR action", () => {
-    const action = setAppErrorAC("An error occurred");
+    const action = appActions.setError({ error: "An error occurred" });
     const newState = appReducer(initialState, action);
 
     expect(newState.error).toEqual("An error occurred");
@@ -36,7 +30,7 @@ describe("appReducer", () => {
   });
 
   it("should handle APP/SET-INITIALIZED action", () => {
-    const action = setIsInitializedAC(true);
+    const action = appActions.setInitialized({ isInitialized: true });
     const newState = appReducer(initialState, action);
 
     expect(newState.isInitialized).toBeTruthy();
