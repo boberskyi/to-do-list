@@ -8,8 +8,6 @@ export const EditableTitle: React.FC<EditableTitleType> = ({ oldTitle, disabled,
     callback,
   );
 
-  console.log(disabled);
-
   return (
     <div>
       {isEditable ? (
