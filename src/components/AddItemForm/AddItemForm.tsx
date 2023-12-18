@@ -23,7 +23,7 @@ export const AddItemForm: React.FC<AddItemFormType> = ({ callback, disabled }) =
           value={inputValue}
           onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={onTitleKeyDownHandler}
-          label={inputError === "" ? "Write task" : inputError}
+          label={inputError === "" ? "Add text" : inputError}
           size={"small"}
           error={inputError !== ""}
           variant="outlined"
