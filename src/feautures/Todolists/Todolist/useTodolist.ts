@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../App/store";
 import {
-  changeTodolistFilterAC,
   FilterValueType,
   removeTodolistTC,
+  todolistsAction,
   updateTdlTitleTC,
 } from "./todolists-reducer";
 import { addTaskTC } from "../Task/tasks-reducer";
@@ -28,7 +28,7 @@ export const useTodolist = ({ tdl }: TodolistPropsType) => {
   });
 
   const changeTodolistFilter = (id: string, value: FilterValueType) => {
-    dispatch(changeTodolistFilterAC(id, value));
+    dispatch(todolistsAction.changeTodolistFilter({ tdlId: id, filter: value }));
   };
 
   const onFilterClickHandler = (value: FilterValueType) => {
