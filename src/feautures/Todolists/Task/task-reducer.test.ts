@@ -1,11 +1,4 @@
-import {
-  updateTaskAC,
-  removeTaskAC,
-  tasksReducer,
-  TasksType,
-  addTaskAC,
-  setTasksAC,
-} from "./tasks-reducer";
+import { tasksActions, tasksReducer, TasksType, taskThunks } from "./tasks-reducer";
 import { TaskPriorities, TaskStatuses } from "../../../todolist-api";
 
 describe("tasksReducer", () => {
@@ -55,7 +48,7 @@ describe("tasksReducer", () => {
       startDate: "",
       status: TaskStatuses.New,
     };
-    const action = addTaskAC(task);
+    const action = tasksActions.addTask({ task });
 
     const newState = tasksReducer(initialState, action);
 
@@ -68,7 +61,7 @@ describe("tasksReducer", () => {
   it("should remove a task from the state", () => {
     const taskId = "1";
     const tdlId = "todolistId1";
-    const action = removeTaskAC(taskId, tdlId);
+    const action = tasksActions.removeTask({ taskId, tdlId });
 
     const newState = tasksReducer(initialState, action);
 
@@ -80,7 +73,7 @@ describe("tasksReducer", () => {
     const tdlId = "todolistId1";
     const taskId = "1";
     const domainModel = { title: "Updated Title" };
-    const action = updateTaskAC(tdlId, taskId, domainModel);
+    const action = tasksActions.updateTask({ tdlId, taskId, domainModel });
 
     const newState = tasksReducer(initialState, action);
 
@@ -115,7 +108,7 @@ describe("tasksReducer", () => {
         status: TaskStatuses.New,
       },
     ];
-    const action = setTasksAC(tdlId, tasks);
+    const action = taskThunks.setTasksTC.fulfilled({ tdlId, tasks }, "requestId", tdlId);
 
     const newState = tasksReducer(initialState, action);
 
