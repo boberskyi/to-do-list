@@ -1,7 +1,7 @@
-import { removeTaskTC, updateTaskTC } from "./tasks-reducer";
+import { taskThunks } from "./tasks-reducer";
 import { useState } from "react";
 import { TaskStatuses, TaskType } from "../../../todolist-api";
-import { useAppDispatch, useAppSelector } from "../../../App/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { TodolistDomainType } from "../Todolist/todolists-reducer";
 
 export const useTask = (task: TaskType, tdlId: string) => {
@@ -18,15 +18,17 @@ export const useTask = (task: TaskType, tdlId: string) => {
     // }
     const newStatus = isDone === TaskStatuses.New ? TaskStatuses.Completed : TaskStatuses.New;
     setIsDone(newStatus);
-    dispatch(updateTaskTC(tdlId, task.id, { status: newStatus }));
+    dispatch(
+      taskThunks.updateTaskTC({ tdlId, taskId: task.id, domainModel: { status: newStatus } }),
+    );
   };
 
   const updateTaskTitle = (newTitle: string) => {
-    dispatch(updateTaskTC(tdlId, task.id, { title: newTitle }));
+    dispatch(taskThunks.updateTaskTC({ tdlId, taskId: task.id, domainModel: { title: newTitle } }));
   };
 
   const removeTask = () => {
-    dispatch(removeTaskTC(task.id, tdlId));
+    dispatch(taskThunks.removeTaskTC({ taskId: task.id, tdlId }));
   };
 
   return {

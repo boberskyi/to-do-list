@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Task } from "./Task";
-import { StoreProviderDecorator } from "../../../App/StoreProviderDecorator";
+import { StoreProviderDecorator } from "../../../app/StoreProviderDecorator";
 import { useSelector } from "react-redux";
-import { AppRootStateType } from "../../../App/store";
+import { AppRootStateType } from "../../../app/store";
 import { TaskPriorities, TaskStatuses, TaskType } from "../../../todolist-api";
 
 const meta = {

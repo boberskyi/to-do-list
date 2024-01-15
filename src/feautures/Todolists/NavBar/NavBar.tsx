@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useAppDispatch, useAppSelector } from "../../../App/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { logOutTC } from "../Login/auth-reducer";
 export const NavBar = () => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import App from "./App";
 import { StoreProviderDecorator } from "./StoreProviderDecorator";
 const meta = {
-  title: "Todolists/App",
+  title: "Todolists/app",
   component: App,
   parameters: {
     layout: "centered",

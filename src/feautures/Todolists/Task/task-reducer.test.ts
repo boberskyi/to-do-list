@@ -1,4 +1,4 @@
-import { tasksActions, tasksReducer, TasksType, taskThunks } from "./tasks-reducer";
+import { tasksReducer, TasksType, taskThunks } from "./tasks-reducer";
 import { TaskPriorities, TaskStatuses } from "../../../todolist-api";
 
 describe("tasksReducer", () => {
@@ -33,51 +33,6 @@ describe("tasksReducer", () => {
         },
       ],
     };
-  });
-
-  it("should add a task to the state", () => {
-    const task = {
-      id: "3",
-      title: "Test Task",
-      todoListId: "todolistId1",
-      addedDate: "",
-      deadline: "",
-      order: 0,
-      priority: TaskPriorities.Low,
-      description: "",
-      startDate: "",
-      status: TaskStatuses.New,
-    };
-    const action = tasksActions.addTask({ task });
-
-    const newState = tasksReducer(initialState, action);
-
-    const updatedTodoList = newState["todolistId1"];
-
-    expect(updatedTodoList.length).toBeGreaterThan(initialState["todolistId1"].length);
-    expect(updatedTodoList[0]).toEqual(expect.objectContaining(task));
-  });
-
-  it("should remove a task from the state", () => {
-    const taskId = "1";
-    const tdlId = "todolistId1";
-    const action = tasksActions.removeTask({ taskId, tdlId });
-
-    const newState = tasksReducer(initialState, action);
-
-    expect(newState["todolistId1"]).toHaveLength(initialState["todolistId1"].length - 1);
-    expect(newState["todolistId1"].some((task) => task.id === "1")).toBe(false);
-  });
-
-  it("should update a task in the state", () => {
-    const tdlId = "todolistId1";
-    const taskId = "1";
-    const domainModel = { title: "Updated Title" };
-    const action = tasksActions.updateTask({ tdlId, taskId, domainModel });
-
-    const newState = tasksReducer(initialState, action);
-
-    expect(newState["todolistId1"][0].title).toBe("Updated Title");
   });
 
   it("should set tasks in the state", () => {

@@ -1,10 +1,11 @@
 import { Dispatch } from "redux";
 import { authAPI, AuthDataType } from "../../../todolist-api";
-import { handleServerAppError, handleServerNetworkError } from "../../../utils/error-utils";
+import { handleServerNetworkError } from "../../../common/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppThunk } from "../../../App/store";
-import { appActions } from "../../../App/app-reducer";
+import { AppThunk } from "../../../app/store";
+import { appActions } from "../../../app/app-reducer";
 import { todolistsAction } from "../Todolist/todolists-reducer";
+import { handleServerAppError } from "../../../common/utils";
 
 const initialState = {
   isLoggedIn: false,
@@ -40,8 +41,8 @@ export const loginTC =
       } else {
         handleServerAppError(dispatch, res.data);
       }
-    } catch (e) {
-      handleServerNetworkError(dispatch, e as { message: string });
+    } catch (e: any) {
+      handleServerNetworkError(dispatch, e);
     }
   };
 export const logOutTC = (): AppThunk => async (dispatch) => {
@@ -56,8 +57,8 @@ export const logOutTC = (): AppThunk => async (dispatch) => {
     } else {
       handleServerAppError(dispatch, res.data);
     }
-  } catch (e) {
-    handleServerNetworkError(dispatch, e as { message: string });
+  } catch (e: any) {
+    handleServerNetworkError(dispatch, e);
   }
 };
 
@@ -72,8 +73,8 @@ export const meTC = () => async (dispatch: Dispatch) => {
     } else {
       handleServerAppError(dispatch, res.data);
     }
-  } catch (e) {
-    handleServerNetworkError(dispatch, e as { message: string });
+  } catch (e: any) {
+    handleServerNetworkError(dispatch, e);
   } finally {
     dispatch(appActions.setInitialized({ isInitialized: true }));
   }

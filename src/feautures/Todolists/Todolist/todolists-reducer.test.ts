@@ -1,142 +1,85 @@
 import {
-  changeTodolistEntityStatusAC,
-  changeTodolistFilterAC,
-  changeTodolistTitleAC,
-  clearTodosDataAC,
-  createTodolistAC,
-  removeTodolistAC,
-  setTodolistAC,
+  FilterValueType,
   TodolistDomainType,
+  todolistsAction,
   todolistsReducer,
 } from "./todolists-reducer";
-import { TodolistType } from "../../../todolist-api";
 
-describe("todolistsReducer", () => {
-  let initialState: TodolistDomainType[];
+const initialTodolistState: TodolistDomainType[] = [
+  {
+    id: "1",
+    title: "Todolist 1",
+    filter: "All",
+    entityStatus: "idle",
+    addedDate: "",
+    order: 0,
+  },
+  {
+    id: "2",
+    title: "Todolist 2",
+    filter: "All",
+    entityStatus: "idle",
+    addedDate: "",
+    order: 0,
+  },
+];
 
-  beforeEach(() => {
-    initialState = [
-      {
-        id: "todolistId1",
-        addedDate: "",
-        order: 0,
-        title: "What to learn",
-        filter: "All",
-        entityStatus: "idle",
-      },
-    ];
-  });
+test("should add a new todolist", () => {
+  const initialState = [...initialTodolistState];
+  const newTodolist = {
+    id: "3",
+    title: "New Todolist",
+    filter: "All",
+    entityStatus: "idle",
+    addedDate: "",
+    order: 0,
+  };
 
-  it("should handle REMOVE-TODOLIST", () => {
-    const action = removeTodolistAC("todolistId1");
-    const nextState = todolistsReducer(initialState, action);
+  const action = todolistsAction.addTodolist({ todolist: newTodolist });
+  const newState = todolistsReducer(initialState, action);
 
-    expect(nextState).toEqual([]);
-  });
+  expect(newState.length).toBe(initialState.length + 1);
+  expect(newState).toContainEqual(newTodolist);
+});
+test("should remove a todolist", () => {
+  const initialState = [...initialTodolistState];
 
-  it("should handle ADD-TODOLIST", () => {
-    const todolist: TodolistType = {
-      id: "todolistId2",
-      title: "New Todolist",
-      addedDate: "",
-      order: 0,
-    };
-    const action = createTodolistAC(todolist);
-    const nextState = todolistsReducer(initialState, action);
+  const action = todolistsAction.removeTodolist({ tdlId: "1" });
+  const newState = todolistsReducer(initialState, action);
 
-    expect(nextState).toEqual([
-      ...initialState,
-      { ...todolist, filter: "All", entityStatus: "idle" },
-    ]);
-  });
+  expect(newState.length).toBe(initialState.length - 1);
+  expect(newState.every((tdl) => tdl.id !== "1")).toBe(true);
+});
+test("should change the title of a todolist", () => {
+  const initialState = [...initialTodolistState];
+  const newTitle = "New Title";
 
-  it("should handle CHANGE-TODOLIST-TITLE", () => {
-    const action = changeTodolistTitleAC("todolistId1", "New Title");
-    const nextState = todolistsReducer(initialState, action);
+  const action = todolistsAction.changeTodolistTitle({ tdlId: "1", newTitle });
+  const newState = todolistsReducer(initialState, action);
 
-    expect(nextState).toEqual([
-      {
-        id: "todolistId1",
-        addedDate: "",
-        order: 0,
-        title: "New Title",
-        filter: "All",
-        entityStatus: "idle",
-      },
-    ]);
-  });
+  expect(newState.find((tdl) => tdl.id === "1")?.title).toBe(newTitle);
+});
+test("should change the filter of a todolist", () => {
+  const initialState = [...initialTodolistState];
+  const newFilter: FilterValueType = "Completed";
 
-  it("should handle CHANGE-TODOLIST-FILTER", () => {
-    const action = changeTodolistFilterAC("todolistId1", "Completed");
-    const nextState = todolistsReducer(initialState, action);
+  const action = todolistsAction.changeTodolistFilter({ tdlId: "1", filter: newFilter });
+  const newState = todolistsReducer(initialState, action);
 
-    expect(nextState).toEqual([
-      {
-        id: "todolistId1",
-        addedDate: "",
-        order: 0,
-        title: "What to learn",
-        filter: "Completed",
-        entityStatus: "idle",
-      },
-    ]);
-  });
+  expect(newState.find((tdl) => tdl.id === "1")?.filter).toBe(newFilter);
+});
+test("should set the todolists with the provided list", () => {
+  const initialState: TodolistDomainType[] = [];
+  const action = todolistsAction.setTodolists({ todolists: initialTodolistState });
+  const newState = todolistsReducer(initialState, action);
 
-  it("should handle SET-TODOLIST", () => {
-    const todolists = [
-      {
-        id: "todolistId2",
-        title: "Todolist 2",
-        addedDate: "",
-        order: 1,
-        entityStatus: "idle",
-        filter: "All",
-      },
-      {
-        id: "todolistId3",
-        title: "Todolist 3",
-        addedDate: "",
-        order: 2,
-        entityStatus: "idle",
-        filter: "All",
-      },
-    ];
-    const action = setTodolistAC(todolists);
-    const nextState = todolistsReducer(initialState, action);
+  expect(newState.length).toBe(initialTodolistState.length);
+  expect(newState).toEqual(initialTodolistState);
+});
+test("should clear the todolists data", () => {
+  const initialState = [...initialTodolistState];
+  const action = todolistsAction.clearData;
+  const newState = todolistsReducer(initialState, action);
 
-    expect(nextState.length).toBe(3); // Check if the length is as expected
-
-    const firstItem = nextState[0];
-    expect(firstItem.id).toBe("todolistId1");
-    expect(firstItem.addedDate).toBe(""); // Check addedDate separately
-    expect(firstItem.order).toBe(0); // Check order separately
-    expect(firstItem.title).toBe("What to learn");
-    expect(firstItem.filter).toBe("All");
-    expect(firstItem.entityStatus).toBe("idle");
-
-    expect(nextState.slice(1)).toEqual(todolists); // Check the rest of the array
-  });
-
-  it("should handle CHANGE-TODOLIST-ENTITY-STATUS", () => {
-    const action = changeTodolistEntityStatusAC("todolistId1", "loading");
-    const nextState = todolistsReducer(initialState, action);
-
-    expect(nextState).toEqual([
-      {
-        id: "todolistId1",
-        addedDate: "",
-        order: 0,
-        title: "What to learn",
-        filter: "All",
-        entityStatus: "loading",
-      },
-    ]);
-  });
-
-  it("should handle CLEAR-DATA", () => {
-    const action = clearTodosDataAC();
-    const nextState = todolistsReducer(initialState, action);
-
-    expect(nextState).toEqual([]);
-  });
+  expect(newState.length).toBe(0);
 });

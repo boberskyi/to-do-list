@@ -22,6 +22,12 @@ export enum TaskPriorities {
   Later = 4,
 }
 
+export type ArgUpdateTask = {
+  tdlId: string;
+  taskId: string;
+  domainModel: UpdateDomainTaskModelType;
+};
+
 export type TaskType = {
   addedDate: string;
   deadline: string;
