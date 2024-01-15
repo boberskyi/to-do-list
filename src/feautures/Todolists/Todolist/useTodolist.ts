@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../App/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import {
   FilterValueType,
   removeTodolistTC,
   todolistsAction,
   updateTdlTitleTC,
 } from "./todolists-reducer";
-import { addTaskTC } from "../Task/tasks-reducer";
 import { TodolistPropsType } from "./TodolistTypes";
 import { TaskStatuses, TaskType } from "../../../todolist-api";
+import { taskThunks } from "../Task/tasks-reducer";
 
 export const useTodolist = ({ tdl }: TodolistPropsType) => {
   const dispatch = useAppDispatch();
@@ -37,7 +37,7 @@ export const useTodolist = ({ tdl }: TodolistPropsType) => {
   };
 
   const addTask = (newTitle: string) => {
-    dispatch(addTaskTC(tdl.id, newTitle));
+    dispatch(taskThunks.addTaskTC({ tdlId: tdl.id, title: newTitle }));
   };
 
   const removeTodolist = () => {
